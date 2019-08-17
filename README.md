@@ -1,6 +1,5 @@
 # Pi-kvorky1
-Snad se ti zobrazí kod piškvorek...
-NEVÍM, PROČ SE ZOBRATUJE TEN ÚVOD TAK DIVNĚ, ALE SNAD TI TO NEVADÍ:)
+RADŠI SE PODÍVEJ DO TOHO TEXTAKU "piskvorky.txt"
 
 #include <iostream>
 
