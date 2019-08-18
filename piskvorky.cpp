@@ -201,19 +201,19 @@ char Vitez()
 		{
 			return 'O';
 		}
+		//Vím, že se tahle podmínka(pod tímto textem :)) bude provádět pokaždé, ale když ji dám ven z cyklu, tak to blbe...
+		else if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
+		{
+			return 'X';
+		}
+
+		else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
+		{
+			return 'O';
+		}
 
 		ukazatelX = 0;
 		ukazatelO = 0;
-	}
-	
-	if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
-	{
-		return 'X';
-	}
-
-	else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
-	{
-		return 'O';
 	}
 }
 	
@@ -257,8 +257,7 @@ int uvitaciobrazovka()
 int main()
 {
 	int p = 0;
-	int konechry = 0;
-	
+		
 	if (uvitaciobrazovka() == 1)
 	{
 		int volba = 0;
@@ -314,8 +313,7 @@ int main()
 			vypsanipole();
 
 			zmenapole();
-			konechry = konechry + 1;
-
+			
 			vypsanipole();
 
 			std::cout << endl;
@@ -338,17 +336,17 @@ int main()
 				system("cls");
 			}
 
-			if (konechry >= 8)
+			if (p == 8)
 			{
-				std::cout << "REMIZA!" << endl;
+				std::cout << "REMIZA" << endl;
 				break;
 			}
 		}
 	}
 
-	else 
+	else
 	{
-		std::cout << "Konec" << endl;
+		std::cout << "KONEC!" << endl;
 	}
 	
 	return 0;
