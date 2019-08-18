@@ -1,3 +1,4 @@
+
 #include <iostream>
 
 using namespace std;
@@ -12,7 +13,7 @@ void vypsanipole()
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			std::cout << pole[i][j] << " ";
+			std::cout << pole[i][j] << " | ";
 		}
 		std::cout << endl;
 	}
@@ -176,6 +177,9 @@ char Vitez()
 {
 	int ukazatelX = 0;
 	int ukazatelO = 0;
+	//musím si vytvořit samostatnou proměnou na sloupce, protože jinak kdyby byly pod sebou např. xxx tak by ten ukazatelX nabil hodnoty 4...
+	int ukazatelXsloupce = 0;
+	int ukazatelOsloupce = 0;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -186,34 +190,47 @@ char Vitez()
 				ukazatelX = ukazatelX + 1;
 			}
 
-			else if (pole[i][j] == 'O')
+			if (pole[i][j] == 'O')
 			{
 				ukazatelO = ukazatelO + 1;
 			}
+
+			if (pole[j][i] == 'X')
+			{
+				ukazatelXsloupce = ukazatelXsloupce + 1;
+			}
+
+			if (pole[j][i] == 'O')
+			{
+				ukazatelOsloupce = ukazatelOsloupce + 1;
+			}
 		}
 
-		if (ukazatelX == 3)
+		if ((ukazatelX == 3) || (ukazatelXsloupce == 3))
 		{
 			return 'X';
 		}
 
-		else if (ukazatelO == 3)
+		else if ((ukazatelO == 3) || (ukazatelOsloupce == 3))
+		{
+			return 'O';
+		}
+				
+		//Vím, že se tahle podmínka(pod tímto textem :)) bude provádět pokaždé, ale když ji dám ven z cyklu, tak to blbe...
+		else if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
+		{
+			return 'X';
+		}
+
+		else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
 		{
 			return 'O';
 		}
 
 		ukazatelX = 0;
 		ukazatelO = 0;
-	}
-	
-	if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
-	{
-		return 'X';
-	}
-
-	else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
-	{
-		return 'O';
+		ukazatelXsloupce = 0;
+		ukazatelOsloupce = 0;
 	}
 }
 	
@@ -257,8 +274,7 @@ int uvitaciobrazovka()
 int main()
 {
 	int p = 0;
-	int konechry = 0;
-	
+		
 	if (uvitaciobrazovka() == 1)
 	{
 		int volba = 0;
@@ -314,8 +330,7 @@ int main()
 			vypsanipole();
 
 			zmenapole();
-			konechry = konechry + 1;
-
+			
 			vypsanipole();
 
 			std::cout << endl;
@@ -338,17 +353,17 @@ int main()
 				system("cls");
 			}
 
-			if (konechry >= 8)
+			if (p == 8)
 			{
-				std::cout << "REMIZA!" << endl;
+				std::cout << "REMIZA" << endl;
 				break;
 			}
 		}
 	}
 
-	else 
+	else
 	{
-		std::cout << "Konec" << endl;
+		std::cout << "KONEC!" << endl;
 	}
 	
 	return 0;
