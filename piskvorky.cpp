@@ -174,91 +174,70 @@ void zmenahrace()
 
 char Vitez()
 {
-	//PRVNI HRAC
-
-	if (pole[0][0] == 'X' && pole[0][1] == 'X' && pole[0][2] == 'X')
+	if (pole[0][0] == pole[0][1] && pole[0][1] == pole[0][2])
 	{
-		return 'X';
+		if (pole[0][0] == 'X')
+		{
+			return 'X';
+		}
+
+		else if (pole[0][0] == 'O')
+		{
+			return 'O';
+		}
 	}
 
-	if (pole[1][0] == 'X' && pole[1][1] == 'X' && pole[1][2] == 'X')
+	if (pole[1][0] == pole[1][1] && pole[1][1] == pole[1][2])
 	{
-		return 'X';
+		if (pole[1][0] == 'X')
+		{
+			return 'X';
+		}
+
+		else if (pole[1][0] == 'O')
+		{
+			return 'O';
+		}
 	}
 
-	if (pole[2][0] == 'X' && pole[2][1] == 'X' && pole[2][2] == 'X')
+	if (pole[2][0] == pole[2][1] && pole[2][1] == pole[2][2])
 	{
-		return 'X';  
+		if (pole[2][0] == 'X')
+		{
+			return 'X';
+		}
+
+		else if (pole[2][0] == 'O')
+		{
+			return 'O';
+		}
 	}
 
-	if (pole[0][0] == 'X' && pole[1][0] == 'X' && pole[2][0] == 'X')
+	if (pole[0][0] == pole[1][1] && pole[1][1] == pole[2][2])
 	{
-		return 'X';
+		if (pole[0][0] == 'X')
+		{
+			return 'X';
+		}
+
+		else if (pole[0][0] == 'O')
+		{
+			return 'O';
+		}
 	}
 
-	if (pole[0][1] == 'X' && pole[1][1] == 'X' && pole[2][1] == 'X')
+	if (pole[0][2] == pole[1][1] && pole[1][1] == pole[2][0])
 	{
-		return 'X';
+		if (pole[0][0] == 'X')
+		{
+			return 'X';
+		}
+
+		else if (pole[0][0] == 'O')
+		{
+			return 'O';
+		}
 	}
-
-	if (pole[0][2] == 'X' && pole[1][2] == 'X' && pole[2][2] == 'X')
-	{
-		return 'X';
-	}
-
-	if (pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X')
-	{
-		return 'X';
-	}
-
-	if (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X')
-	{
-		return 'X';
-	}
-
-	//DRUHY HRAC
-
-	if (pole[0][0] == 'O' && pole[0][1] == 'O' && pole[0][2] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[1][0] == 'O' && pole[1][1] == 'O' && pole[1][2] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[2][0] == 'O' && pole[2][1] == 'O' && pole[2][2] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[0][0] == 'O' && pole[1][0] == 'O' && pole[2][0] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[0][1] == 'O' && pole[1][1] == 'O' && pole[2][1] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[0][2] == 'O' && pole[1][2] == 'O' && pole[2][2] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O')
-	{
-		return 'O';
-	}
-
-	if (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O')
-	{
-		return 'O';
-	}
-
-	return '/';
 }
 
 void zmenaprezdivky()
