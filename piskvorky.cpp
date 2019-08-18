@@ -174,72 +174,49 @@ void zmenahrace()
 
 char Vitez()
 {
-	if (pole[0][0] == pole[0][1] && pole[0][1] == pole[0][2])
+	int ukazatelX = 0;
+	int ukazatelO = 0;
+
+	for (int i = 0; i < 3; i++)
 	{
-		if (pole[0][0] == 'X')
+		for (int j = 0; j < 3; j++)
+		{
+			if (pole[i][j] == 'X')
+			{
+				ukazatelX = ukazatelX + 1;
+			}
+
+			else if (pole[i][j] == 'O')
+			{
+				ukazatelO = ukazatelO + 1;
+			}
+		}
+
+		if (ukazatelX == 3)
 		{
 			return 'X';
 		}
 
-		else if (pole[0][0] == 'O')
+		else if (ukazatelO == 3)
 		{
 			return 'O';
 		}
+
+		ukazatelX = 0;
+		ukazatelO = 0;
+	}
+	
+	if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
+	{
+		return 'X';
 	}
 
-	if (pole[1][0] == pole[1][1] && pole[1][1] == pole[1][2])
+	else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
 	{
-		if (pole[1][0] == 'X')
-		{
-			return 'X';
-		}
-
-		else if (pole[1][0] == 'O')
-		{
-			return 'O';
-		}
-	}
-
-	if (pole[2][0] == pole[2][1] && pole[2][1] == pole[2][2])
-	{
-		if (pole[2][0] == 'X')
-		{
-			return 'X';
-		}
-
-		else if (pole[2][0] == 'O')
-		{
-			return 'O';
-		}
-	}
-
-	if (pole[0][0] == pole[1][1] && pole[1][1] == pole[2][2])
-	{
-		if (pole[0][0] == 'X')
-		{
-			return 'X';
-		}
-
-		else if (pole[0][0] == 'O')
-		{
-			return 'O';
-		}
-	}
-
-	if (pole[0][2] == pole[1][1] && pole[1][1] == pole[2][0])
-	{
-		if (pole[0][0] == 'X')
-		{
-			return 'X';
-		}
-
-		else if (pole[0][0] == 'O')
-		{
-			return 'O';
-		}
+		return 'O';
 	}
 }
-
+	
 void zmenaprezdivky()
 {
 	if (hrac == 'X')
