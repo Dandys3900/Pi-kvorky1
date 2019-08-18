@@ -12,7 +12,7 @@ void vypsanipole()
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			std::cout << pole[i][j] << " ";
+			std::cout << pole[i][j] << " | ";
 		}
 		std::cout << endl;
 	}
