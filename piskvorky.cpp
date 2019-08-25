@@ -3,8 +3,8 @@
 using namespace std;
 char pole[3][3] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 char hrac = 'X';
-char prezdivka1[25];
-char prezdivka2[25];
+char prezdivka1[100];
+char prezdivka2[100];
 
 void vypsanipole()
 {
@@ -18,144 +18,30 @@ void vypsanipole()
 	}
 }
 
-void zmenapole()
+void zmenapole() 
 {
 	int volbahrace = 0;
-
+	
 	std::cout << "Kam chces hrat ted?: " << endl;
 	std::cin >> volbahrace;
-
-	while (volbahrace > 9)
+	
+	while ((volbahrace > 9) || (volbahrace < 1))
 	{
 		std::cout << " Spatna volba - znova: " << endl;
 		std::cin >> volbahrace;
 	}
-
-	if (volbahrace == 1)
+	
+	char volba_char = '0' + volbahrace;
+	
+	for (int i = 0; i < 3; i++)
 	{
-		if (pole[0][0] == '1')
+		for (int j = 0; j < 3; j++)
 		{
-			pole[0][0] = hrac;
+			if (volba_char == pole[i][j])
+			{
+				pole[i][j] = hrac;
+			}
 		}
-		
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 2)
-	{
-		if (pole[0][1] == '2')
-		{
-			pole[0][1] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 3)
-	{
-		if (pole[0][2] == '3')
-		{
-			pole[0][2] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 4)
-	{
-		if (pole[1][0] == '4')
-		{
-			pole[1][0] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 5)
-	{
-		if (pole[1][1] == '5')
-		{
-			pole[1][1] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 6)
-	{
-		if (pole[1][2] == '6')
-		{
-			pole[1][2] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 7)
-	{
-		if (pole[2][0] == '7')
-		{
-			pole[2][0] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 8)
-	{
-		if (pole[2][1] == '8')
-		{
-			pole[2][1] = hrac;
-		}
-
-		else
-		{
-			std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-			std::cout << endl;
-		}
-	}
-
-	else if (volbahrace == 9)
-	{
-	if (pole[2][2] == '9')
-	{
-		pole[2][2] = hrac;
-	}
-
-	else
-	{
-		std::cout << "pole je jiz OBSAZENE!, smula prisel jsi o tah NAUC SE PRAVIDLA blbecku!" << endl;
-		std::cout << endl;
-	}
-
 	}
 }
 
@@ -215,21 +101,20 @@ char Vitez()
 			return 'O';
 		}
 				
-		//Vím, že se tahle podmínka(pod tímto textem :)) bude provádět pokaždé, ale když ji dám ven z cyklu, tak to blbe...
-		else if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
-		{
-			return 'X';
-		}
-
-		else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
-		{
-			return 'O';
-		}
-
 		ukazatelX = 0;
 		ukazatelO = 0;
 		ukazatelXsloupce = 0;
 		ukazatelOsloupce = 0;
+	}
+	
+	if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
+	{
+	    return 'X';
+	}
+
+	else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
+	{
+		return 'O';
 	}
 }
 	
