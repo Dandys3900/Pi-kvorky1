@@ -21,18 +21,18 @@ void vypsanipole()
 void zmenapole() 
 {
 	int volbahrace = 0;
-	
+
 	std::cout << "Kam chces hrat ted?: " << endl;
 	std::cin >> volbahrace;
-	
+
 	while ((volbahrace > 9) || (volbahrace < 1))
 	{
 		std::cout << " Spatna volba - znova: " << endl;
 		std::cin >> volbahrace;
 	}
-	
+
 	char volba_char = '0' + volbahrace;
-	
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -106,7 +106,7 @@ char Vitez()
 		ukazatelXsloupce = 0;
 		ukazatelOsloupce = 0;
 	}
-	
+		
 	if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
 	{
 	    return 'X';
@@ -116,6 +116,8 @@ char Vitez()
 	{
 		return 'O';
 	}
+
+	return '/';
 }
 	
 void zmenaprezdivky()
