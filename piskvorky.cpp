@@ -8,7 +8,7 @@ char prezdivka2[100];
 
 void vypsanipole()
 {
-    for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
@@ -18,9 +18,10 @@ void vypsanipole()
 	}
 }
 
-void zmenapole() 
+void zmenapole()
 {
 	int volbahrace = 0;
+	int radek, sloupec = 0;
 
 	std::cout << "Kam chces hrat ted?: " << endl;
 	std::cin >> volbahrace;
@@ -30,19 +31,11 @@ void zmenapole()
 		std::cout << " Spatna volba - znova: " << endl;
 		std::cin >> volbahrace;
 	}
+	// -2 protože kdyby to bylo na poli 8, tak by se hodnota radku dostala na 3.
+	radek = ((volbahrace - 2) / 3);
+	sloupec = ((volbahrace - 1) - (radek * 3));
 
-	char volba_char = '0' + volbahrace;
-
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			if (volba_char == pole[i][j])
-			{
-				pole[i][j] = hrac;
-			}
-		}
-	}
+	pole[radek][sloupec] = hrac;
 }
 
 void zmenahrace()
@@ -52,7 +45,7 @@ void zmenahrace()
 		hrac = 'X';
 	}
 
-	else 
+	else
 	{
 		hrac = 'O';
 	}
@@ -100,16 +93,16 @@ char Vitez()
 		{
 			return 'O';
 		}
-				
+
 		ukazatelX = 0;
 		ukazatelO = 0;
 		ukazatelXsloupce = 0;
 		ukazatelOsloupce = 0;
 	}
-		
+
 	if ((pole[0][0] == 'X' && pole[1][1] == 'X' && pole[2][2] == 'X') || (pole[0][2] == 'X' && pole[1][1] == 'X' && pole[2][0] == 'X'))
 	{
-	    return 'X';
+		return 'X';
 	}
 
 	else if ((pole[0][0] == 'O' && pole[1][1] == 'O' && pole[2][2] == 'O') || (pole[0][2] == 'O' && pole[1][1] == 'O' && pole[2][0] == 'O'))
@@ -119,7 +112,7 @@ char Vitez()
 
 	return '/';
 }
-	
+
 void zmenaprezdivky()
 {
 	if (hrac == 'X')
@@ -151,16 +144,16 @@ int uvitaciobrazovka()
 		return 1;
 	}
 
-	else 
+	else
 	{
 		return 2;
-	}		
+	}
 }
 
 int main()
 {
 	int p = 0;
-		
+
 	if (uvitaciobrazovka() == 1)
 	{
 		int volba = 0;
@@ -216,7 +209,7 @@ int main()
 			vypsanipole();
 
 			zmenapole();
-			
+
 			vypsanipole();
 
 			std::cout << endl;
@@ -251,6 +244,6 @@ int main()
 	{
 		std::cout << "KONEC!" << endl;
 	}
-	
+
 	return 0;
 }
