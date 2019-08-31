@@ -32,7 +32,7 @@ void zmenapole()
 		std::cin >> volbahrace;
 	}
 	// -2 protože kdyby to bylo na poli 8, tak by se hodnota radku dostala na 3.
-	radek = ((volbahrace - 2) / 3);
+	radek = ((volbahrace - 1) / 3);
 	sloupec = ((volbahrace - 1) - (radek * 3));
 
 	pole[radek][sloupec] = hrac;
