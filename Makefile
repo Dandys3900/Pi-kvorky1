@@ -1,11 +1,16 @@
-TARGET = game
+TARGET = game pokus
 
 CC = g++
 CCFLAGS += -Wall -Wextra
 
 
-$(TARGET): piskvorky.cpp
-		$(CC) $(CCFLAGS) $^ -o $@
+game: piskvorky.cpp
+		$(CC) $(CCFLAGS) $< -o $@
+
+pokus: to_same.cpp
+		$(CC) $(CCFLAGS) $< -o $@
+
+all: $(TARGET)
 
 clean:
 		@rm -f $(TARGET)
