@@ -33,7 +33,8 @@ void zmenapole()
 	}
 	// -2 protože kdyby to bylo na poli 8, tak by se hodnota radku dostala na 3.
 	radek = ((volbahrace - 1) / 3);
-	sloupec = ((volbahrace - 1) - (radek * 3));
+	//tohle jsem od tebe neopsal, uz jsem to mel lokalne, ale jeste jsem se nedostal k uploadu, az ted...:)
+	sloupec = ((volbahrace - 1) % 3);
 
 	pole[radek][sloupec] = hrac;
 }
