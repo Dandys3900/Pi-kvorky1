@@ -1,20 +1,48 @@
 #include <iostream>
+#include <stdio.h>
+#include "SDL.h"
+#include <string> 
+#include <typeinfo>
 
 using namespace std;
-char pole[3][3] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+int const sirka = 10;
+int const delka = 10;
+
 char hrac = 'X';
 char prezdivka1[100];
 char prezdivka2[100];
 
+enum strany { NONE, O, X }; //no jo jsme narod zlodeju...
+strany aktivni_hrac = X;
+strany pole[delka][sirka];
+string prezdivka[X + 1];
+
+char reprezentace(strany a)
+{
+	return a == X ? 'X' : a == O ? 'O' : ' ';
+}
+
 void vypsanipole()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < delka; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < sirka; j++)
 		{
-			std::cout << pole[i][j] << " | ";
+			char symbol;
+
+			if (pole[i][j] == NONE)
+			{
+				symbol = ('1' + (i * 3) + j);
+			}
+									
+			else
+			{
+				symbol = reprezentace(pole[i][j]);
+			}
+				
+			std::cout << symbol << " | ";
 		}
-		std::cout << endl;
+		cout << endl;
 	}
 }
 
@@ -25,31 +53,42 @@ void zmenapole()
 
 	std::cout << "Kam chces hrat ted?: " << endl;
 	std::cin >> volbahrace;
-
-	while ((volbahrace > 9) || (volbahrace < 1))
+								
+	while ((volbahrace > (delka*sirka)) || (volbahrace < 1))
 	{
 		std::cout << " Spatna volba - znova: " << endl;
 		std::cin >> volbahrace;
 	}
-	// -2 protože kdyby to bylo na poli 8, tak by se hodnota radku dostala na 3.
-	radek = ((volbahrace - 1) / 3);
-	//tohle jsem od tebe neopsal, uz jsem to mel lokalne, ale jeste jsem se nedostal k uploadu, az ted...:)
-	sloupec = ((volbahrace - 1) % 3);
+	
+	radek = ((volbahrace - 1) / delka);
+	sloupec = ((volbahrace - 1) % delka);
 
-	pole[radek][sloupec] = hrac;
+	if (pole[radek][sloupec] != NONE)
+	{
+		std::cout << "Pole je jiz OBSAZENE, vyber si jine:" << endl;
+		std::cin >> volbahrace;
+
+		radek = ((volbahrace - 1) / delka);
+		sloupec = ((volbahrace - 1) % delka);
+
+		if (pole[radek][sloupec] != NONE)
+		{
+			std::cout << "Zase spatne, inu komu neni radi..." << endl;
+		}
+
+		else
+		{
+			pole[radek][sloupec] = aktivni_hrac;
+			vypsanipole();
+		}
+	}
+
+	pole[radek][sloupec] = aktivni_hrac;
 }
 
 void zmenahrace()
 {
-	if (hrac == 'O')
-	{
-		hrac = 'X';
-	}
-
-	else
-	{
-		hrac = 'O';
-	}
+	aktivni_hrac = (aktivni_hrac == O) ? X : O;
 }
 
 char Vitez()
@@ -60,9 +99,9 @@ char Vitez()
 	int ukazatelXsloupce = 0;
 	int ukazatelOsloupce = 0;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < delka; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < sirka; j++)
 		{
 			if (pole[i][j] == 'X')
 			{
@@ -85,12 +124,12 @@ char Vitez()
 			}
 		}
 
-		if ((ukazatelX == 3) || (ukazatelXsloupce == 3))
+		if ((ukazatelX == delka) || (ukazatelXsloupce == sirka))
 		{
 			return 'X';
 		}
 
-		else if ((ukazatelO == 3) || (ukazatelOsloupce == 3))
+		else if ((ukazatelO == delka) || (ukazatelOsloupce == sirka))
 		{
 			return 'O';
 		}
@@ -151,9 +190,11 @@ int uvitaciobrazovka()
 	}
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+	FILE* f;
 	int p = 0;
+	char volba1[2];
 
 	if (uvitaciobrazovka() == 1)
 	{
@@ -166,74 +207,82 @@ int main()
 		std::cout << "Kdo zacne?: " << endl;
 		std::cin >> volba;
 
-		if (volba == 1)
-		{
-			std::cout << " Hrac X si vybere prezdivku: " << endl;
-			std::cin >> prezdivka1;
+		aktivni_hrac = (volba == 1) ? X : O;
 
-			std::cout << " Hrac O si vybere prezdivku: " << endl;
-			std::cin >> prezdivka2;
+		for (int i = 0; i < 2; i++)
+		{
+			std::cout << "Hrac " << reprezentace(aktivni_hrac) << " si vybere prezdivku: " << endl;
+			std::cin >> prezdivka[aktivni_hrac];
+			zmenahrace();
 		}
 
-		if (volba == 2)
-		{
-			std::cout << " Hrac O si vybere prezdivku: " << endl;
-			std::cin >> prezdivka2;
-
-			std::cout << " Hrac X si vybere prezdivku: " << endl;
-			std::cin >> prezdivka1;
-		}
-
-		if (volba == 1)
-		{
-			hrac = 'X';
-		}
-
-		else if (volba == 2)
-		{
-			hrac = 'O';
-		}
-
-		else if (volba > 2)
+		if (volba > 2)
 		{
 			std::cout << "Nauc se cist matlo!... :(" << endl;
 		}
 
-		for (p = 0; p < 10; p++)
+		for (p = 0; p < (delka * sirka); p++)
 		{
-			std::cout << " Tah hrace: " << hrac;
-			std::cout << endl;
-
-			zmenaprezdivky();
+			cout << " Tah hrace: " << reprezentace(aktivni_hrac) << endl;
+			cout << "Ktery si rika: " << prezdivka[aktivni_hrac] << endl;
 			std::cout << endl;
 
 			vypsanipole();
 
 			zmenapole();
-
-			vypsanipole();
-
+									
 			std::cout << endl;
+
 			if (Vitez() == 'X')
 			{
 				std::cout << "Vitezem je hrac: 'X' " << ", ktery si rika: " << prezdivka1 << endl;
-				break;
+				std::cout << "Chces se zapsat do historie?:[a/n]" << endl;
+				std::cin >> volba1;
+
+				if (volba1[0] == 'a')
+				{
+					f = fopen("Historie vitezu.txt", "w");
+					fprintf(f, "Vitezem je:  %s", prezdivka1);
+					fprintf(f, "\n");
+					fclose(f);
+					break;
+				}
+
+				else
+				{
+					break;
+				}
 			}
 
 			else if (Vitez() == 'O')
 			{
 				std::cout << "Vitezem je hrac: 'O' " << ", ktery si rika: " << prezdivka2 << endl;
-				break;
+				std::cout << "Chces se zapsat do historie?:" << endl;
+				std::cin >> volba1;
+
+				if (volba1[0] == 'a')
+				{
+					f = fopen("Historie vitezu.txt", "w");
+					fprintf(f, "Vitezem je:  %s", prezdivka2);
+					fprintf(f, "\n");
+					fclose(f);
+					break;
+				}
+
+				else
+				{
+					break;
+				}
 			}
 
 			zmenahrace();
 
-			if (p == 4)
+	    	if (p == delka)
 			{
 				system("cls");
 			}
 
-			if (p == 8)
+			if (p == ((delka * sirka) - 1))
 			{
 				std::cout << "REMIZA" << endl;
 				break;
@@ -241,7 +290,7 @@ int main()
 		}
 	}
 
-	else
+	else if (uvitaciobrazovka() == 2)
 	{
 		std::cout << "KONEC!" << endl;
 	}
