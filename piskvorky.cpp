@@ -3,8 +3,7 @@
 #include <SDL.h>
 #include <string> 
 #include <string.h>
-#include <typeinfo>
-#include <windows.h>
+#include <typeinfo>//pro strycka prihodu
 
 using namespace std;
 int const sirka = 10;
