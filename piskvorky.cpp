@@ -42,7 +42,7 @@ void vypsanipole()
 				
 			std::cout << symbol << " | ";
 		}
-		cout << endl;
+		std::cout << endl;
 	}
 }
 
@@ -151,19 +151,6 @@ char Vitez()
 	}
 
 	return '/';
-}
-
-void zmenaprezdivky()
-{
-	if (hrac == 'X')
-	{
-		std::cout << "Ktery si rika: " << prezdivka1 << endl;
-	}
-
-	else if (hrac == 'O')
-	{
-		std::cout << "Ktery si rika: " << prezdivka2 << endl;
-	}
 }
 
 int uvitaciobrazovka()
