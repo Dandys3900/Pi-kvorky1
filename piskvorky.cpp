@@ -21,7 +21,7 @@ strany aktivni_hrac = X;
 strany pole[delka][sirka];
 string prezdivka[X + 1];
 
-class tabulka
+class tabulka //jenom include tvého, cas na upravy jeste nebyl
 {
 	int vykresli(int delka_tabulky, int sirka_tabulky)
 	{
