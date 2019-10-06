@@ -1,12 +1,17 @@
 #include <iostream>
 #include <stdio.h>
-#include "SDL.h"
+#include <SDL.h>
 #include <string> 
+#include <string.h>
 #include <typeinfo>
+#include <windows.h>
 
 using namespace std;
 int const sirka = 10;
 int const delka = 10;
+
+int delka_tabulky = 0;
+int sirka_tabulky = 0;
 
 char hrac = 'X';
 char prezdivka1[100];
@@ -16,6 +21,69 @@ enum strany { NONE, O, X }; //no jo jsme narod zlodeju...
 strany aktivni_hrac = X;
 strany pole[delka][sirka];
 string prezdivka[X + 1];
+
+class tabulka
+{
+	int vykresli(int delka_tabulky, int sirka_tabulky)
+	{
+		if (SDL_Init(SDL_INIT_EVERYTHING))
+		{
+			cout << "SDL_Init Error: " << SDL_GetError() << endl;
+			return 1;
+		}
+
+		SDL_Window* win = SDL_CreateWindow("Tabulecka", 5, 5, 1024, 600, SDL_WINDOW_SHOWN);
+
+		if (!win)
+		{
+			cout << "SDL_CreateWindow Error: " << SDL_GetError() << endl;
+			return 2;
+		}
+
+		SDL_Renderer* ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+		if (!ren)
+		{
+			cout << "SDL_CreateRenderer Error: " << SDL_GetError() << endl;
+			return 3;
+		}
+
+		SDL_Event event;
+		bool done = false;
+
+		while (!done)
+		{
+
+			// smaze obrazovku
+			SDL_SetRenderDrawColor(ren, 30, 30, 120, 255);
+			SDL_RenderClear(ren);
+
+			{
+				// nakresli trojuhelnik o pevne zakladne
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
+				SDL_RenderDrawLine(ren, 100, 100, x, y);
+				SDL_RenderDrawLine(ren, x, y, 200, 100);
+				SDL_RenderDrawLine(ren, 200, 100, 100, 100);
+			}
+
+			SDL_RenderPresent(ren);
+
+			while (SDL_PollEvent(&event))
+			{
+				if (event.type == SDL_QUIT)
+					done = true;
+			}
+		}
+
+		SDL_DestroyRenderer(ren);
+		SDL_DestroyWindow(win);
+		SDL_Quit();
+
+		return 0;
+	}
+};
 
 char reprezentace(strany a)
 {
@@ -152,17 +220,33 @@ char Vitez()
 
 	return '/';
 }
+void zarovnani()
+{
+	int sirka = 200;
+	int i = 0;
+	string uvod = "Vitejte ve hre PISKVORKY [version 1.4]"; //vzor pro zarovnani ostatnich
+
+	while (uvod[i] != '\0')
+	{
+		++i;
+	}
+	for (int j = 0; j < ((sirka - i) / 2); i++)
+	{
+		std::cout << " ";
+	}
+}
 
 int uvitaciobrazovka()
 {
 	int moznost = 0;
-
-	std::cout << "VITEJTE VE HRE PISKVORKY" << endl;
-	std::cout << "Co ted?: " << endl;
-
-	std::cout << endl;
-
+	
+	zarovnani();
+	std::cout << "Vitejte ve hre PISKVORKY [version 1.4]" << endl;
+		
+	zarovnani();
 	std::cout << "Zacit hrat...1" << endl;
+
+	zarovnani();
 	std::cout << "Ukoncit program...2" << endl;
 	std::cin >> moznost;
 
@@ -185,25 +269,26 @@ int main(int argc, char *argv[])
 
 	if (uvitaciobrazovka() == 1)
 	{
-		int volba = 0;
+		char volba = '0';
 
-		std::cout << " Zacina hrac X ... 1" << endl;
-		std::cout << " Zacina hrac O ... 2" << endl;
+		std::cout << " Zacina hrac X [stiskni x]" << endl;
+		std::cout << " Zacina hrac O [stikni o]" << endl;
 		std::cout << endl;
 
 		std::cout << "Kdo zacne?: " << endl;
 		std::cin >> volba;
 
-		aktivni_hrac = (volba == 1) ? X : O;
+		aktivni_hrac = (volba == 'x') ? X : O;
 
 		for (int i = 0; i < 2; i++)
 		{
 			std::cout << "Hrac " << reprezentace(aktivni_hrac) << " si vybere prezdivku: " << endl;
 			std::cin >> prezdivka[aktivni_hrac];
+
 			zmenahrace();
 		}
 
-		if (volba > 2)
+		if ((volba != 'x') && (volba != 'o'))
 		{
 			std::cout << "Nauc se cist matlo!... :(" << endl;
 		}
@@ -230,8 +315,10 @@ int main(int argc, char *argv[])
 				{
 					f = fopen("Historie vitezu.txt", "w");
 					fprintf(f, "Vitezem je:  %s", prezdivka1);
+
 					fprintf(f, "\n");
 					fclose(f);
+
 					break;
 				}
 
@@ -251,8 +338,10 @@ int main(int argc, char *argv[])
 				{
 					f = fopen("Historie vitezu.txt", "w");
 					fprintf(f, "Vitezem je:  %s", prezdivka2);
+
 					fprintf(f, "\n");
 					fclose(f);
+
 					break;
 				}
 
@@ -277,7 +366,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	else if (uvitaciobrazovka() == 2)
+	else
 	{
 		std::cout << "KONEC!" << endl;
 	}
