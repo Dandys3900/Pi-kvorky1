@@ -1,7 +1,7 @@
 TARGET = game pokus
 
 CC = g++
-CCFLAGS += -Wall -Wextra
+CCFLAGS += -Wall -Wextra -I/usr/include/SDL2
 
 
 game: piskvorky.cpp
