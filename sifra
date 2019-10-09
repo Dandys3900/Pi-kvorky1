@@ -1,0 +1,7 @@
+Rozšifrujte "klíčové" informace ve zprávě TopSekret.txt.
+
+K tomu Vám poslouží Fouskem ukořistěná sablona.txt, která je sice taktéž zašifrována stejnou šifrou, nicméně se Fouskovi
+podařilo frekvenční analýzou zjistit procentuální zastoupení písmen (malé a velké je bráno jako jedno písmeno, tj. a = A) v delších zprávách nepřítele,
+což právě sablona.txt takovou delší zprávou je.
+
+Frekvenční analýza je přiložena v souboru statistika.txt.
