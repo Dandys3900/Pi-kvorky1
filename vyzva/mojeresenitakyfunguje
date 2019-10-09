@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    char hledany_znak = 'a';
+    char velkyhledany_znak = 'A';
+    char znaky_textu = '0';
+    float pocet;
+    float vyskyt;
+    float zastoupeni = 0;
+    char znak = 'a';
+
+    FILE *f;
+    FILE *g;
+    FILE *h;
+
+    f = fopen("statistika.txt", "r");
+    g = fopen("cvicnytext.txt", "r");
+    h = fopen("vyskyt.txt", "w");
+
+    for(int i = 0; i < 26; i++)
+    {
+       while(fscanf(g,"%c", &znaky_textu) == 1)
+        {
+            if((znaky_textu >= 'a' && znaky_textu <= 'z') || (znaky_textu >= 'A' && znaky_textu <= 'Z'))
+            {
+                pocet++;
+
+                if(znaky_textu == hledany_znak)
+                {
+                    vyskyt++;
+                }
+
+                else if(znaky_textu == (hledany_znak - 32))
+                {
+                    vyskyt++;
+                }
+            }
+        }
+
+       zastoupeni = ((100 * vyskyt) / pocet);
+
+       fprintf(h,"Zastoupeni znaku %c je %1.6f \n", znak,zastoupeni);
+
+       zastoupeni = 0;
+       vyskyt = 0;
+       pocet = 0;
+
+       hledany_znak = hledany_znak + 1;
+       velkyhledany_znak = velkyhledany_znak + 1;
+       znak = znak + 1;
+       fseek(g,0,SEEK_SET);
+    }
+
+    fclose(f);
+    fclose(g);
+    fclose(h);
+
+}
