@@ -1,6 +1,6 @@
 Zdravím a pozdravuji,
-kdyby jsi měl náhodou chvilinku času, nechtěl by jsi mi udělat málé code review? Problém je v tom, že místo aby to vypsalo:"Znak _ ve skutecnosti odpovida znaku_"
-u všech malých písmen abecedy (tedy 26 myslím :) ), tak je výstup následující:
+kdyby jsi měl náhodou chvilinku času, nechtěl by jsi mi udělat málé code review? Problém je v tom, že místo aby to vypsalo:
+"Znak _ ve skutecnosti odpovida znaku_" u všech malých písmen abecedy (tedy 26 myslím :) ), tak je výstup následující:
 -------------------------------------------------
 Znak b je ve skutecnosti znak s 
 Znak c je ve skutecnosti znak e 
