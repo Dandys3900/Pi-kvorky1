@@ -80,7 +80,7 @@ int main()
 
 		fscanf(f, "%f", &procenta);
 
-		for (a = 0; a <= 25; a++)
+		for (a = 0; a <= 25; a++) // if (abs(procenta - pole[a]) == 0.000001)
 		{
 			if (procenta == pole[a])
 			{
