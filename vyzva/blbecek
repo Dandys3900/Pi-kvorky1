@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 int main()
 {
@@ -7,12 +8,12 @@ int main()
 	char znaky_textu = '0';
 	char znak = 'a';
 	char procentitko = '%';
-	float pocet = 0.000000;
-	float vyskyt = 0.000000;
+	double pocet = 0.000000;
+	double vyskyt = 0.000000;
 	double zastoupeni = 0.000000;
-	float pole[26];
-	float procenta = 0.000000;
-	float hodnota = 0.000000;
+	double pole[26];
+	double procenta = 0.000000;
+	double hodnota = 0.000000;
 	int a = 0;
 	int j = 0;
 	int i = 0;
@@ -54,6 +55,7 @@ int main()
 		fprintf(h, "Znak %c ma zastoupeni %f %c \n", hledany_znak, zastoupeni, procentitko);
 
 		pole[i] = zastoupeni;
+		printf("%f \n", zastoupeni);
 
 		zastoupeni = 0.000000;
 		vyskyt = 0.000000;
@@ -80,9 +82,9 @@ int main()
 
 		fscanf(f, "%f", &procenta);
 
-		for (a = 0; a <= 25; a++) // if (abs(procenta - pole[a]) == 0.000001)
+		for (a = 0; a <= 25; a++)
 		{
-			if (procenta == pole[a])
+			if ((fabs(procenta - pole[a])) < 0.000001)
 			{
 				fprintf(e, "Znak %c ve skutecnosti odpovida znaku %c \n", znak, hledany_znak);
 			}
@@ -104,17 +106,57 @@ int main()
 }
 
 --------------------------------------------
-Znak s ve skutecnosti odpovida znaku b 
-Znak e ve skutecnosti odpovida znaku c 
-Znak r ve skutecnosti odpovida znaku d 
-Znak q ve skutecnosti odpovida znaku e 
-Znak h ve skutecnosti odpovida znaku i 
-Znak y ve skutecnosti odpovida znaku j 
-Znak p ve skutecnosti odpovida znaku n 
+Znak k ve skutecnosti odpovida znaku a 
+Znak n ve skutecnosti odpovida znaku a 
+Znak k ve skutecnosti odpovida znaku b 
+Znak n ve skutecnosti odpovida znaku b 
+Znak k ve skutecnosti odpovida znaku c 
+Znak n ve skutecnosti odpovida znaku c 
+Znak k ve skutecnosti odpovida znaku d 
+Znak n ve skutecnosti odpovida znaku d 
+Znak k ve skutecnosti odpovida znaku e 
+Znak n ve skutecnosti odpovida znaku e 
+Znak k ve skutecnosti odpovida znaku f 
+Znak n ve skutecnosti odpovida znaku f 
+Znak k ve skutecnosti odpovida znaku g 
+Znak n ve skutecnosti odpovida znaku g 
+Znak k ve skutecnosti odpovida znaku h 
+Znak n ve skutecnosti odpovida znaku h 
+Znak k ve skutecnosti odpovida znaku i 
+Znak n ve skutecnosti odpovida znaku i 
+Znak k ve skutecnosti odpovida znaku j 
+Znak n ve skutecnosti odpovida znaku j 
+Znak k ve skutecnosti odpovida znaku k 
+Znak n ve skutecnosti odpovida znaku k 
+Znak k ve skutecnosti odpovida znaku l 
+Znak n ve skutecnosti odpovida znaku l 
+Znak k ve skutecnosti odpovida znaku m 
+Znak n ve skutecnosti odpovida znaku m 
+Znak k ve skutecnosti odpovida znaku n 
+Znak n ve skutecnosti odpovida znaku n 
+Znak k ve skutecnosti odpovida znaku o 
+Znak n ve skutecnosti odpovida znaku o 
+Znak k ve skutecnosti odpovida znaku p 
+Znak n ve skutecnosti odpovida znaku p 
 Znak k ve skutecnosti odpovida znaku q 
 Znak n ve skutecnosti odpovida znaku q 
-Znak j ve skutecnosti odpovida znaku s 
-Znak v ve skutecnosti odpovida znaku t 
+Znak k ve skutecnosti odpovida znaku r 
+Znak n ve skutecnosti odpovida znaku r 
+Znak k ve skutecnosti odpovida znaku s 
+Znak n ve skutecnosti odpovida znaku s 
+Znak k ve skutecnosti odpovida znaku t 
+Znak n ve skutecnosti odpovida znaku t 
+Znak k ve skutecnosti odpovida znaku u 
+Znak n ve skutecnosti odpovida znaku u 
+Znak k ve skutecnosti odpovida znaku v 
+Znak n ve skutecnosti odpovida znaku v 
 Znak k ve skutecnosti odpovida znaku w 
 Znak n ve skutecnosti odpovida znaku w 
+Znak k ve skutecnosti odpovida znaku x 
+Znak n ve skutecnosti odpovida znaku x 
+Znak k ve skutecnosti odpovida znaku y 
+Znak n ve skutecnosti odpovida znaku y 
+Znak k ve skutecnosti odpovida znaku z 
+Znak n ve skutecnosti odpovida znaku z 
+
 
