@@ -102,3 +102,19 @@ int main()
 
 	return 0;
 }
+
+--------------------------------------------
+Znak s ve skutecnosti odpovida znaku b 
+Znak e ve skutecnosti odpovida znaku c 
+Znak r ve skutecnosti odpovida znaku d 
+Znak q ve skutecnosti odpovida znaku e 
+Znak h ve skutecnosti odpovida znaku i 
+Znak y ve skutecnosti odpovida znaku j 
+Znak p ve skutecnosti odpovida znaku n 
+Znak k ve skutecnosti odpovida znaku q 
+Znak n ve skutecnosti odpovida znaku q 
+Znak j ve skutecnosti odpovida znaku s 
+Znak v ve skutecnosti odpovida znaku t 
+Znak k ve skutecnosti odpovida znaku w 
+Znak n ve skutecnosti odpovida znaku w 
+
