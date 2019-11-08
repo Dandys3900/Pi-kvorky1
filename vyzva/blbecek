@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	char hledany_znak = 'a';
+	char znaky_textu = '0';
+	char znak = 'a';
+	char procentitko = '%';
+	float pocet = 0.000000;
+	float vyskyt = 0.000000;
+	double zastoupeni = 0.000000;
+	float pole[26];
+	float procenta = 0.000000;
+	float hodnota = 0.000000;
+	int a = 0;
+	int j = 0;
+	int i = 0;
+
+	FILE* t;
+	FILE* f;
+	FILE* g;
+	FILE* h;
+	FILE* e;
+
+	t = fopen("textnadesifraci.txt", "r");
+	f = fopen("statistika.txt", "r");
+	g = fopen("cvicnytext.txt", "r");
+	h = fopen("vyskyt.txt", "w");
+	e = fopen("sifraklic.txt", "w");
+
+	for (i = 0; i <= 25; i++)
+	{
+		while (fscanf(g, "%c", &znaky_textu) == 1)
+		{
+			if (((znaky_textu >= 'a') && (znaky_textu <= 'z')) || ((znaky_textu >= 'A') && (znaky_textu <= 'Z')))
+			{
+				pocet++;
+
+				if (znaky_textu == hledany_znak)
+				{
+					vyskyt++;
+				}
+
+				else if (znaky_textu == (hledany_znak - 32))
+				{
+					vyskyt++;
+				}
+
+			}
+		}
+
+		zastoupeni = ((100 * vyskyt) / pocet);
+		fprintf(h, "Znak %c ma zastoupeni %f %c \n", hledany_znak, zastoupeni, procentitko);
+
+		pole[i] = zastoupeni;
+
+		zastoupeni = 0.000000;
+		vyskyt = 0.000000;
+		pocet = 0.000000;
+		znak = 'a';
+
+		hledany_znak = hledany_znak + 1;
+		fseek(g, 0, SEEK_SET);
+	}
+
+	hledany_znak = 'a';
+
+	for (j = 0; j <= 25; j++)
+	{
+		if (j == 0)
+		{
+			fseek(f, +4, SEEK_CUR);
+		}
+
+		else
+		{
+			fseek(f, +7, SEEK_CUR);
+		}
+
+		fscanf(f, "%f", &procenta);
+
+		for (a = 0; a <= 25; a++)
+		{
+			if (procenta == pole[a])
+			{
+				fprintf(e, "Znak %c ve skutecnosti odpovida znaku %c \n", znak, hledany_znak);
+			}
+
+			znak = znak + 1;
+		}
+
+		hledany_znak = hledany_znak + 1;
+		znak = 'a';
+	}
+
+	fclose(f);
+	fclose(g);
+	fclose(h);
+	fclose(t);
+	fclose(e);
+
+	return 0;
+}
