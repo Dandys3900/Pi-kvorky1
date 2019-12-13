@@ -4,50 +4,51 @@
 
 int main()
 {
+	int ukazatel = 0;
+	int c = 0;
+	int x = 23;
+	int y = 0;
+	int p = 0;
 	char hledany_znak = 'a';
 	char znaky_textu = '0';
 	char znak = 'a';
 	char procentitko = '%';
+	char znak_sifry = '0';
+	char ASCII[255];
+	double znak2 = 0.000000;
 	double pocet = 0.000000;
 	double vyskyt = 0.000000;
 	double zastoupeni = 0.000000;
 	double pole[26];
 	double procenta = 0.000000;
-	double hodnota = 0.000000;
-	int a = 0;
-	int j = 0;
-	int i = 0;
 
 	FILE* t;
 	FILE* f;
 	FILE* g;
 	FILE* h;
 	FILE* e;
+	FILE* l;
+	FILE* q;
 
 	t = fopen("textnadesifraci.txt", "r");
 	f = fopen("statistika.txt", "r");
 	g = fopen("cvicnytext.txt", "r");
 	h = fopen("vyskyt.txt", "w");
-	e = fopen("sifraklic.txt", "w");
+	e = fopen("sifraklic.txt", "w+");
+	l = fopen("vysledeksifry.txt", "w+");
+	q = fopen("vysledekdruhesifry.txt", "w");
 
-	for (i = 0; i <= 25; i++)
+	if ((t == NULL) || (f == NULL) || (g == NULL) || (h == NULL) || (e == NULL) || (l == NULL) ||(q == NULL)) printf("Oops, neco se asi pokazilo... \n");
+
+	for (int i = 0; i <= 25; i++)
 	{
 		while (fscanf(g, "%c", &znaky_textu) == 1)
 		{
-			if (((znaky_textu >= 'a') && (znaky_textu <= 'z')) || ((znaky_textu >= 'A') && (znaky_textu <= 'Z')))
+			if (((znaky_textu >= 'a') && (znaky_textu <= 'z')) || ((znaky_textu >= 'A') && (znaky_textu <= 'Z'))) pocet++;
 			{
-				pocet++;
+				if (znaky_textu == hledany_znak) vyskyt ++;
 
-				if (znaky_textu == hledany_znak)
-				{
-					vyskyt++;
-				}
-
-				else if (znaky_textu == (hledany_znak - 32))
-				{
-					vyskyt++;
-				}
-
+				else if (znaky_textu == (hledany_znak - 32)) vyskyt ++;
 			}
 		}
 
@@ -55,7 +56,6 @@ int main()
 		fprintf(h, "Znak %c ma zastoupeni %f %c \n", hledany_znak, zastoupeni, procentitko);
 
 		pole[i] = zastoupeni;
-		printf("%f \n", zastoupeni);
 
 		zastoupeni = 0.000000;
 		vyskyt = 0.000000;
@@ -67,96 +67,107 @@ int main()
 	}
 
 	hledany_znak = 'a';
+	znak = 'a';
 
-	for (j = 0; j <= 25; j++)
+	for (int j = 0; j <= 25; j++)
 	{
-		if (j == 0)
-		{
-			fseek(f, +4, SEEK_CUR);
-		}
+		znak2 = pole[j];
 
-		else
-		{
-			fseek(f, +7, SEEK_CUR);
-		}
+		if (hledany_znak == 'k') fprintf(e,"q");
+		else if (hledany_znak == 'n') fprintf(e,"w");
 
-		fscanf(f, "%f", &procenta);
+        else
+        {
+            for (int a = 0; a <= 25; a++)
+		    {
+		        if (a == 0) fseek(f, +4, SEEK_CUR);
 
-		for (a = 0; a <= 25; a++)
-		{
-			if ((fabs(procenta - pole[a])) < 0.000001)
-			{
-				fprintf(e, "Znak %c ve skutecnosti odpovida znaku %c \n", znak, hledany_znak);
-			}
+		        else fseek(f, +7, SEEK_CUR);
 
-			znak = znak + 1;
-		}
+		        fscanf(f, "%lf", &procenta);
+
+		        if ((fabs(procenta - znak2)) < 0.000001) fprintf(e, "%c", znak);
+
+			    znak = znak + 1;
+		    }
+        }
 
 		hledany_znak = hledany_znak + 1;
 		znak = 'a';
+		fseek(f,0,SEEK_SET);
 	}
+
+	znak = ' ';
+
+    for (int l = 32; l < 255; l++)
+    {
+        if (l >= 65 && l <= 90)
+        {
+            ukazatel = (l - 65);
+            fseek(e,+ukazatel,SEEK_SET);
+            fscanf(e,"%1c", &znak_sifry);
+            ASCII[l] = (znak_sifry - 32);
+        }
+
+        else if (l >= 97 && l <= 122)
+        {
+            ukazatel = (l - 97);
+            fseek(e,+ukazatel,SEEK_SET);
+            fscanf(e,"%1c", &znak_sifry);
+            ASCII[l] = znak_sifry;
+        }
+
+        else ASCII[l] = znak;
+
+        znak++;
+        fseek(e,0,SEEK_SET);
+   }
+
+   while ((c = fgetc(t)) != EOF)
+   {
+       if (c == '\n') fprintf(l,"\n");
+
+       else fprintf(l,"%c",ASCII[c]);
+   }
+
+   fseek(l,358,SEEK_SET);
+
+   while (((c = fgetc(l)) != EOF) && (p < 1842))
+   {
+       if (c >= 65 && c <=90)
+       {
+           if ((c + x) > 90)
+           {
+               y = 63;
+               fprintf(q,"%c", y + ((c + x) - 89));
+           }
+
+           else fprintf(q,"%c", c + x);
+       }
+
+       else if (c >= 97 && c <= 122)
+       {
+           if ((c + x) > 122)
+           {
+               y = 95;
+               fprintf(q,"%c", y + ((c + x) - 121));
+           }
+
+           else fprintf(q,"%c", c + x);
+       }
+
+       else fprintf(q,"%c", c);
+       p++;
+   }
+
 
 	fclose(f);
 	fclose(g);
 	fclose(h);
 	fclose(t);
 	fclose(e);
+	fclose(l);
+	fclose(q);
 
 	return 0;
 }
-
---------------------------------------------
-Znak k ve skutecnosti odpovida znaku a 
-Znak n ve skutecnosti odpovida znaku a 
-Znak k ve skutecnosti odpovida znaku b 
-Znak n ve skutecnosti odpovida znaku b 
-Znak k ve skutecnosti odpovida znaku c 
-Znak n ve skutecnosti odpovida znaku c 
-Znak k ve skutecnosti odpovida znaku d 
-Znak n ve skutecnosti odpovida znaku d 
-Znak k ve skutecnosti odpovida znaku e 
-Znak n ve skutecnosti odpovida znaku e 
-Znak k ve skutecnosti odpovida znaku f 
-Znak n ve skutecnosti odpovida znaku f 
-Znak k ve skutecnosti odpovida znaku g 
-Znak n ve skutecnosti odpovida znaku g 
-Znak k ve skutecnosti odpovida znaku h 
-Znak n ve skutecnosti odpovida znaku h 
-Znak k ve skutecnosti odpovida znaku i 
-Znak n ve skutecnosti odpovida znaku i 
-Znak k ve skutecnosti odpovida znaku j 
-Znak n ve skutecnosti odpovida znaku j 
-Znak k ve skutecnosti odpovida znaku k 
-Znak n ve skutecnosti odpovida znaku k 
-Znak k ve skutecnosti odpovida znaku l 
-Znak n ve skutecnosti odpovida znaku l 
-Znak k ve skutecnosti odpovida znaku m 
-Znak n ve skutecnosti odpovida znaku m 
-Znak k ve skutecnosti odpovida znaku n 
-Znak n ve skutecnosti odpovida znaku n 
-Znak k ve skutecnosti odpovida znaku o 
-Znak n ve skutecnosti odpovida znaku o 
-Znak k ve skutecnosti odpovida znaku p 
-Znak n ve skutecnosti odpovida znaku p 
-Znak k ve skutecnosti odpovida znaku q 
-Znak n ve skutecnosti odpovida znaku q 
-Znak k ve skutecnosti odpovida znaku r 
-Znak n ve skutecnosti odpovida znaku r 
-Znak k ve skutecnosti odpovida znaku s 
-Znak n ve skutecnosti odpovida znaku s 
-Znak k ve skutecnosti odpovida znaku t 
-Znak n ve skutecnosti odpovida znaku t 
-Znak k ve skutecnosti odpovida znaku u 
-Znak n ve skutecnosti odpovida znaku u 
-Znak k ve skutecnosti odpovida znaku v 
-Znak n ve skutecnosti odpovida znaku v 
-Znak k ve skutecnosti odpovida znaku w 
-Znak n ve skutecnosti odpovida znaku w 
-Znak k ve skutecnosti odpovida znaku x 
-Znak n ve skutecnosti odpovida znaku x 
-Znak k ve skutecnosti odpovida znaku y 
-Znak n ve skutecnosti odpovida znaku y 
-Znak k ve skutecnosti odpovida znaku z 
-Znak n ve skutecnosti odpovida znaku z 
-
-
