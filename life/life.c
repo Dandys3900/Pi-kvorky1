@@ -3,7 +3,7 @@
 //FileType: Visual C# Source file
 //Size : 6kB
 //Author : Tomas Daniel
-//Created On : 29/02/2020 10:20:42 AM
+//Created On : 10/03/2020 21:45:42 AM
 //Last Modified On : 04/03/2020 21:45:18 PM
 //Description : Program that simulates Conway´s "Game of Life"
 //Creative Commons license CC
@@ -13,6 +13,25 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+
+void zarovnani(char text[], int velikost_obrazovky, int a_n, int hvezdy)
+{
+    int i = 0;
+    int j = 0;
+
+    while(text[i] != '\0') i++;
+
+    for(j = 0; (j < ((velikost_obrazovky - i) / 2)); j++) printf(" ");
+
+    if(a_n == 1) printf("%s \n", text);
+    else if(a_n == 0) printf("%s", text);
+
+    if(hvezdy == 1)
+    {
+        for(j = 0; j < (velikost_obrazovky + 7); j++) printf("*");
+        printf("\n");
+    }
+}
 
 void zpozdeni(float pocet_sekund)
 {
@@ -29,97 +48,33 @@ void zpozdeni(float pocet_sekund)
 
 void zmena_pole(int delka, int sirka, char pole[delka][sirka], char pole1[delka][sirka])
 {
-    int sum_x = 0;
-    int sum_y = 0;
     int pocet_sousedu = 0;
 
-    for(int i = 0; i < delka; i++)
-    {
-        for(int j = 0; j < sirka; j++)
-        {
-            //na stejnem radku
-            sum_x = i;
-            sum_y = j + 1;
+   for(int i = 0; i < delka; i++)
+   {
+       for(int j = 0; j < sirka; j++)
+       {
+           for(int a = (i - 1); a < (i + 2) && a >= 0 && a < delka; a++)
+           {
+               for(int b = (j - 1); b < (j + 2) && b >= 0 && b < sirka; b++)
+               {
+                   if(pole[a][b] == '*') pocet_sousedu++;
+               }
+           }
 
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i][j + 1] == '*') pocet_sousedu++;
-            }
+           if(pole[i][j] == '*') pocet_sousedu--; 
 
-            sum_x = i;
-            sum_y = j - 1;
+           if(pole[i][j] == '*') pole1[i][j] = (pocet_sousedu < 2) ? '/' : (pocet_sousedu == 2) ? '*' : (pocet_sousedu == 3) ? '*' : (pocet_sousedu > 3) ? '/' : '/';
+           if(pole[i][j] == '/') pole1[i][j] = (pocet_sousedu == 3) ? '*' : '/';
 
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i][j - 1] == '*') pocet_sousedu++;
-            }
+           pocet_sousedu = 0;
+       }
+   }
 
-            //na vyssim radku
-            sum_x = i - 1;
-            sum_y = j;
-
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i - 1][j] == '*') pocet_sousedu++;
-            }
-
-            sum_x = i - 1;
-            sum_y = j - 1;
-
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i - 1][j - 1] == '*') pocet_sousedu++;
-            }
-
-            sum_x = i - 1;
-            sum_y = j + 1;
-
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i - 1][j + 1] == '*') pocet_sousedu++;
-            }
-
-            //na nizsim radku
-            sum_x = i + 1;
-            sum_y = j;
-
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i + 1][j] == '*') pocet_sousedu++;
-            }
-
-            sum_x = i + 1;
-            sum_y = j - 1;
-
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i + 1][j - 1] == '*') pocet_sousedu++;
-            }
-
-            sum_x = i + 1;
-            sum_y = j + 1;
-
-            if(sum_x >= 0 && sum_x < delka && sum_y >= 0 && sum_y < sirka)
-            {
-                if(pole[i + 1][j + 1] == '*') pocet_sousedu++;
-            }
-
-            if(pole[i][j] == '*')
-            {
-                pole1[i][j] = (pocet_sousedu < 2) ? '/' : (pocet_sousedu == 2) ? '*' : (pocet_sousedu == 3) ? '*' : (pocet_sousedu > 3) ? '/' : '/'; //vytvarim si paralelne druhe pole, tak aby dalsi bunky v poradi nebyly ovlivneny zmenou v jejich poli
-            }
-
-            if(pole[i][j] == '/')
-            {
-                pole1[i][j] = (pocet_sousedu == 3) ? '*' : '/';
-            }
-
-            pocet_sousedu = 0;
-        }
-    }
+    pocet_sousedu = 0;
 }
 
-void vypis(int delka, int sirka, char pole[delka][sirka], char pole1[delka][sirka], char volba, int p, HANDLE hConsole)
+void vypis(int delka, int sirka, char pole[delka][sirka], char pole1[delka][sirka], int p, HANDLE hConsole)
 {
     system("cls");
 
@@ -142,12 +97,12 @@ void vypis(int delka, int sirka, char pole[delka][sirka], char pole1[delka][sirk
                 {
                     SetConsoleTextAttribute(hConsole, 7);
                     printf("  ");
-                } 
+                }
 
                 SetConsoleTextAttribute(hConsole, 7);
                 printf("  ");
             }
-            
+
             else if(p == 0)
             {
                 if(pole[t][h] == '*')
@@ -164,7 +119,7 @@ void vypis(int delka, int sirka, char pole[delka][sirka], char pole1[delka][sirk
 
                 SetConsoleTextAttribute(hConsole, 7);
                 printf("  ");
-            }         
+            }
         }
 
         printf("\n");
@@ -183,110 +138,171 @@ int main()
     unsigned int p = 0;
     int rand_cisla = 0;
     int procento_zivych = 0;
+    int velikost_obrazovky = 0;
     char nacteny_znak = '0';
     char volba = '0';
     char volba_tvorba = '0';
+    char typ_obrazovky = '0';
+    char konec_hry = 'a';
     float cas_od_uzivatele = 0; //cas ktery zada uzivatel
 
     srand(time(NULL));
 
     HANDLE hConsole;
 
-    printf("VITEJTE VE HRE ZIVOTA, [beta verze] \n");
-    printf("\n");
-
-    printf("Nastav velikost pole: \n");
-    printf("   Delka: (souradnice X) \n");
-    scanf("%d", &delka);
-    printf("   Sirka: (souradnice Y) \n");
-    scanf("%d", &sirka);
-
-    printf("\n");
-
-    printf("Jak chcete ovladat vznik novych generaci?: \n");
-    printf("   Manualne[stikni m] \n");
-    printf("   Automaticky po x sekundach[stiskni u] \n");
-    scanf(" %1c", &volba);
-
-    if(volba == 'u')
+    while(konec_hry != 'n')
     {
-        printf("   Nastav si prosim, po kolika sekundach se zrodi nova generace: \n");
-        scanf("%f", &cas_od_uzivatele);
-    }
+        printf("Vyber si v jake velikosti okna budes hrat: \n");
+        printf("   Full screen mode[stikni x] \n");
+        printf("   Small window mode[stikni s] \n");
+        scanf(" %c", &typ_obrazovky);
 
-    printf("\n");
+        if(typ_obrazovky == 'x') velikost_obrazovky = 230;
+        else if(typ_obrazovky == 's') velikost_obrazovky = 100;
 
-    printf("Jak chcete vytvorit nultou (uvodni) generaci? \n");
-    printf("   Nahodne[stikni n] \n");
-    printf("   Procentualni zastoupeni[stikni p] \n");
-    scanf(" %1c", &volba_tvorba);
+        system("cls");
 
-    if(volba_tvorba == 'p')
-    {
-        printf("   Nastav procento zivych: \n");
-        scanf("%d", &procento_zivych);
-        printf("Procento mrtvych redy bude: %d procent \n", (100 - procento_zivych));
-        zpozdeni(1.5);
-    }
+        zarovnani("! PRO VAS MAXIMALNI KOMFORT NEMENTE PROSIM VELIKOST VASEHO OKNA BEHEM CHODU PROGRAMU !", velikost_obrazovky, 1, 1);
+        zpozdeni(4.5);
 
-    printf("\n");    
+        system("cls");
 
-    char pole[delka][sirka];
-    char pole1[delka][sirka];
+        zarovnani("VITEJTE VE HRE ZIVOTA, [beta verze]", velikost_obrazovky, 1, 0);
+        zarovnani("", velikost_obrazovky, 1, 1);
 
-    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        zarovnani("Nastav velikost pole", velikost_obrazovky, 1, 0);
+        printf("\n");
+        zarovnani("Sirka bunecneho pole:", velikost_obrazovky, 1, 0);
+        zarovnani("-> ", velikost_obrazovky, 0, 0);
+        scanf(" %d", &delka);
 
-    for(int i = 0; i < delka; i++)
-    {
-        for(int a = 0; a < sirka; a++)
+        system("cls");
+
+        zarovnani("VITEJTE VE HRE ZIVOTA, [beta verze]", velikost_obrazovky, 1, 0);
+        zarovnani("", velikost_obrazovky, 1, 1);
+
+        zarovnani("Nastav velikost pole", velikost_obrazovky, 1, 0);
+        printf("\n");
+        zarovnani("Vyska bunecneho pole:", velikost_obrazovky, 1, 0);
+        zarovnani("-> ", velikost_obrazovky, 0, 0);
+        scanf(" %d", &sirka);
+
+        system("cls");
+
+        zarovnani("VITEJTE VE HRE ZIVOTA, [beta verze]", velikost_obrazovky, 1, 0);
+        zarovnani("", velikost_obrazovky, 1, 1);
+
+        zarovnani("Ovladani vzniku novych generaci", velikost_obrazovky, 1, 0);
+        printf("\n");
+        zarovnani("Manualne[stikni m]", velikost_obrazovky, 1, 0);
+        zarovnani("Automaticky po x sekundach[stiskni u]:", velikost_obrazovky, 1, 0);
+        zarovnani("-> ", velikost_obrazovky, 0, 0);
+        scanf(" %c", &volba);
+
+        system("cls");
+
+        if(volba == 'u')
         {
-            if(volba_tvorba == 'n')
+            zarovnani("VITEJTE VE HRE ZIVOTA, [beta verze]", velikost_obrazovky, 1, 0);
+            zarovnani("", velikost_obrazovky, 1, 1);
+
+            zarovnani("Nastav si prosim, po kolika sekundach se zrodi nova generace:", velikost_obrazovky, 1, 0);
+            zarovnani("-> ", velikost_obrazovky, 0, 0);
+            scanf(" %f", &cas_od_uzivatele);
+
+            system("cls");
+        }
+
+        zarovnani("VITEJTE VE HRE ZIVOTA, [beta verze]", velikost_obrazovky, 1, 0);
+        zarovnani("", velikost_obrazovky, 1, 1);
+
+        zarovnani("Tvorba (uvodni) nulte generace", velikost_obrazovky, 1, 0);
+        printf("\n");
+        zarovnani("Nahodne[stikni n]", velikost_obrazovky, 1, 0);
+        zarovnani("Procentualni zastoupeni[stikni p]:", velikost_obrazovky, 1, 0);
+        zarovnani("-> ", velikost_obrazovky, 0, 0);
+        scanf(" %c", &volba_tvorba);
+
+        system("cls");
+
+        if(volba_tvorba == 'p')
+        {
+            zarovnani("VITEJTE VE HRE ZIVOTA, [beta verze]", velikost_obrazovky, 1, 0);
+            zarovnani("", velikost_obrazovky, 1, 1);
+
+            zarovnani("Nastav procento zivych:", velikost_obrazovky, 1, 0);
+            zarovnani("-> ", velikost_obrazovky, 0, 0);
+            scanf("%d", &procento_zivych);
+
+            system("cls");
+        }
+
+        char pole[delka][sirka];
+        char pole1[delka][sirka];
+
+        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+        for(int i = 0; i < delka; i++)
+        {
+            for(int a = 0; a < sirka; a++)
             {
-                rand_cisla = rand()%2;
-            
-                if(rand_cisla == 0) pole[i][a] = '/'; // jako dead ;)             
-                if(rand_cisla == 1) pole[i][a] = '*'; // jako alive ;)
-            }
+                if(volba_tvorba == 'n')
+                {
+                    rand_cisla = rand()%2;
 
-            if(volba_tvorba == 'p')
+                    if(rand_cisla == 0) pole[i][a] = '/'; // jako dead ;)
+                    if(rand_cisla == 1) pole[i][a] = '*'; // jako alive ;)
+                }
+
+                if(volba_tvorba == 'p')
+                {
+                    rand_cisla = rand()%100 + 1;
+
+                    if(rand_cisla <= procento_zivych) pole[i][a] = '*';
+                    else if(rand_cisla > procento_zivych) pole[i][a] = '/';
+                }
+            }
+        }
+
+        nacteny_znak = 'n';
+
+        if(volba == 'm')
+        {
+            while(nacteny_znak != 'a')
             {
-                rand_cisla = rand()%100 + 1;
+                zmena_pole(delka, sirka, pole, pole1);
+                vypis(delka, sirka, pole, pole1, p, hConsole);
 
-                if(rand_cisla <= procento_zivych) pole[i][a] = '*';
-                else if(rand_cisla > procento_zivych) pole[i][a] = '/';
+                p++;
+
+                printf("Chcete ukoncit hru? [a/n] \n");
+                scanf(" %1c", &nacteny_znak);
             }
         }
-    }
 
-    nacteny_znak = 'n';
-
-    if(volba == 'm')
-    {
-        while(nacteny_znak != 'a')
+        else if(volba == 'u')
         {
-            zmena_pole(delka, sirka, pole, pole1);
-            vypis(delka, sirka, pole, pole1, volba, p, hConsole);
-            
-            p++;
-            
-            printf("Chcete ukoncit hru? [a/n] \n");
-            scanf(" %1c", &nacteny_znak);
+            while(1)
+            {
+                zpozdeni(cas_od_uzivatele);
+
+                zmena_pole(delka, sirka, pole, pole1);
+                vypis(delka, sirka, pole, pole1, p, hConsole);
+
+                p++;
+
+                printf("Konec programu [Ctrl + c] \n");
+            }
         }
-    }
 
-    else if(volba == 'u')
-    {
-        while(1)
-        {
-            zpozdeni(cas_od_uzivatele);
+        zarovnani("", velikost_obrazovky, 1, 1);
+        zarovnani("DIKY ZA SPUSTENI!, chces si zahrat znova?", velikost_obrazovky, 1, 0);
+        zarovnani("Ano! [stikni a]", velikost_obrazovky, 1, 0);
+        zarovnani("Ne, diky! [stiskni n]", velikost_obrazovky, 1, 0);
+        zarovnani("-> ", velikost_obrazovky, 0, 0);
+        scanf(" %c", &konec_hry);
 
-            zmena_pole(delka, sirka, pole, pole1);
-            vypis(delka, sirka, pole, pole1, volba, p, hConsole);
-
-            p++;
-
-            printf("Pro konec programu stisknete klavesu stisknete [Ctrl + c] \n");
-        }
+        system("cls");
     }
 
     return 0;
