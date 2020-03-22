@@ -1,0 +1,201 @@
+Jm‚no					  Funkce
+--------------------------------------------------------------------------------
+.ALL					| Form t pro zaznamen v n¡ vˆc¡.
+					|   Skl d  se z 8=mibajtov˜ch polo‘ek.
+					|   Polo‘ka: 1. bajt je ‡¡slo vˆci, 2.
+					|   bajt je ‡¡slo m¡stnosti, ve kter‚ se
+					|   na za‡ tku nach z¡; n sleduje 5 baj-
+					|   t– zad vaj¡c¡ch oblast, kde se m 
+					|   kliknout my¨¡ a posledn¡ bajt vyja-
+					|   d©uje ‡¡slo p©episu resp. nep©episu.
+ AnimaceZPaku(s:string,speed:byte)	| P©eru¨¡ hru a zobraz¡ animace ze sou-
+					|   boru s- form t .ANM. Speed ud v  d‚-
+					|   lku pauzy v setin ch sekundy.
+.ANM					| Prvn¡ 2 bajty (druh˜ je vy¨¨¡) ur‡uj¡
+					|   d‚lku animace ve sn¡mc¡ch. Zbytek je
+					|   vyplnˆn 10-tibajtov˜mi bloky, v kte-
+					|   r˜ch zase prvn¡ 2 bajty ur‡uj¡ v ko-
+					|   lik t‚m sn¡mku se animace za©ad¡.
+ Closegraph				| Nastav¡ textov˜ re‘im.
+.CMF					| Form t hudby- nic nov˜ho.
+.CPS					| Obr zkov˜ form t s kompres¡ PCX run
+					|   length.
+ CuchejKod(cis,dial,k1,k2,k3,k4:byte)   | Funkce vrac¡ True pokud pr vˆ v m¡st-
+					|   nosti Cis, v rozhovoru s osobou Dial
+					|   se odbyl dialog o kodu k1-k2-k3-k4.
+ CuchejPlac(x,y:integer)		| Funkce vrac¡ True pokud na sou©adnice
+					|   nen¡ zak z n p©¡stup.
+ CuchejSmer(x1,y1,x2,y2:integer)	| Funkce vrac¡ ‡¡slo smˆru kter˜m by by-
+					|   lo z hodno j¡t aby se dostalo z bodu
+					|   x1,y1 do bodu x2,y2.
+ CuchejVychod(x,y:integer)		| Funkce vrac¡ ‡¡slo m¡stosti kam p–jde. 
+ CurMluv:byte				| Promˆnn , v n¡‘ je ulo‘en stav papuly-
+					|   kdy‘ je rovna 255 tak nikdo nemluv¡!
+ Dodelal(cis:byte)			| Vrac¡ True, jestli postava Cis dodˆla-
+					|   la svoji animaci a je schopna ji po-
+					|   zmˆnit.
+ Dodelej(cis:byte)			| Funkce Dodelal vrac¡ True.
+ DodelejDialog				| Ukon‡¡ pr vˆ prob¡haj¡c¡ dialog.
+					|   Jinak to ani nejde !
+.FON					| Form t fontu z fonteditoru.
+.ICN					| Stejn˜ form t jako .CPS, ale na‡¡t  se
+					|   jako ikonka my¨i.
+					|   Nahrej do bufferu Ikony^.
+ Inicializuj				| Inicializuje z kladn¡ hodnoty.
+					|   Nahraje taky z kladn¡ ikonky.
+ InitFM(stat:word)			| Sna‘¡ se inicializovat SB- celkem na
+					|   prd.
+ JeMluvici(cis:byte)			| Vraci True pokud zrovna hovori osoba
+					|   Cis.
+ MaxCountOfItem:byte - konstanta	| Pocet veci zobrazenych najednou v ok-
+					|   nu na veci.
+ Mistnost(cis:byte)			| Na‡te pozad¡ ze souboru "ROOMxx.CPS"
+					|   a na‡te "ROOMxx.SHP", ‡¡slo je v he-
+					|   xadecim ln¡ soustavˆ. Zhasne obra-
+					|   zovku, zmˆn¡ z klad. promˆnn˜ a hud-
+					|   bu a rozsv¡t¡ obrazovku.
+ Myska(jo:boolean)			| Z hlavn¡ho programu se nevol  ze z sa-
+					|   dy. Sama se vyvol v  v Pozadi. Vyko-
+					|   n vaj¡ se zde v¨echny nevoln¡ funkce
+					|   Parametr m  stejn˜ v˜znam jako v
+					|   procedu©e UkazPage.
+ NactiBitZeStavu(poz:word,bit)		| Na‡te 1 bit z bufferu Stavu- pozice je
+					|   d na pomoc¡ po©adov‚ho ‡¡sla Poz a
+					|   ‡¡sla bitu Bit. Funkce vrac¡ 1 or 0.
+ NactiByteZeStavu(poz:word)		| Na‡te 1 bajt z poz-t‚ho bajtu bufferu
+					|   Stavu.
+ NactiCPS(s:string,x,y:integer)		| Na‡¡t  .CPS z disku na sou©. x,y.
+ NactiCPSMem(a:pointer,x,y,nr:word)	| Na‡¡t  .CPS z pamˆti (1. parametr).
+ NactiCPSzPaku(s:string,x,y:integer)	| Na‡¡t  .CPS z paku do pointru w^.
+ NactiPALzPaku(s:string)		| Na‡te a nastav¡ paletu.
+ NactiSHP(s:string)			| Na‡¡t  .SHP z disku (s...jm‚no).
+ NactiSHPzPaku(s:string)		| -    ''   - z paku.
+ NactiWSA(a:pointer,x,y,od,nr:integer)	| Na‡¡t  .WSA z pamˆti. Parametr od zna-
+					|   men  pozici ve form tˆ, kterou fun-
+					|   vrac¡- samoz©ejmˆ posunutou.
+ Nahraj(s:string)			| Na‡te soubor s do pointru w^ a vr t¡
+					|   po‡et na‡ten˜ch bajt–. Pozor! V t‚-
+					|   hle funkci se rezervuje pamˆŸ. buf-
+					|   fer, tak‘e a‘ to nepot©ebuje¨ tak
+					|   dej FreeMem. Pokud to bude¨ pot©ebo-
+					|   vat d‚le mus¡¨ si to p©en‚st do jin‚
+					|   promˆnn‚: pal:=@w^; promˆnn  pal je
+					|   typu Typ.
+ NahrajFontzPaku(s:string)		| Nahraje font z paku a vr t¡ ‡¡slo pod
+					|   n¡m‘ bude vystupovat- Handler.
+ NahrajIkonu(x:byte,name:string)	| Nahraje ikonku Name z paku za x-tou i-
+					|   konku.
+ NahrajzPaku(s:string)			| Podobnˆ jako funkce Nahraj jenom sou-
+					|   bor S nahr v  z aktivn¡ho Paku.
+ Nastav					| Nastav¡ grafiku.
+ NastavKod(kod1,kod2,kod3,kod4:byte)	| Nastav¡ zadan˜ kod a za‡¡n  ot zkou.
+ NastavPAL(s:string)			| Nahraje a nastav¡ paletu ze souboru s
+					|   - form t .PAL.
+ NastavPALMem				| Nastavuje paletu nahranou v pal^.
+ NechtZastaviVeSmeru(sm:byte)		| Hned jak se zastav¡ oto‡¡ se do smˆru
+					|   sm.
+ NovaPostava(s:string,x,y,pr:integer)	| Vytvo©¡ novou postavu na sou©adnic¡ch
+					|   x,y a p©episem pr. Je to funkce a 
+					|   vrac¡ ‡¡slo, pod kter˜m d le v pro-
+					|   gramu vystupuje. 
+ Objevse(od,po:byte)			| Rozsv¡t¡ barvy od Od do Po.
+ ObnovRoomSHP				| Znovu nahraje informace ze .SHP- pokud
+					|   se zmˆn¡ jist  vˆc ve bufferu stavu.
+ Odinicializuj				| Uvol¤uje obsazenou pamˆŸ.
+ OtevriPak(s:name)			| Otev©e pak s a zmapuje si ho.
+.PAK					| Origin ln¡ WestWoodsk˜ pak.
+					|   Soubory, kter˜ z toho pak vytahuje¨
+					|   nesm¡ m¡t ve sv‚m jm‚nˆ mal˜ p¡smen-
+					|   ko.
+.PAL					| 256 trojic bajt– = RGB.
+ PisText(x,y:integer,s:string,d:byte)	| Zobraz¡ text S o d‚lce D fontem 0 tak,
+					|   aby st©ed byl na sou©adnic¡ch x,y.
+					|   Procedura ‡ek  na kliknut¡!
+ PisTextMan(s:string)			| Stejnˆ jako u PisText, ale zobraz¡ to
+					|   nad pajƒulou.
+ PlayCMF(a:pointer)			| Zanotuje p¡sni‡ku z pamˆti.
+ PlayVOC(nam:strin)			| Nahraje a p©ehraje zvu‡ek z paku.
+ PlayZnovu				| Tato funkce vrac¡ word. Pokud nen¡ ro-
+					|   ven 0 hudba je¨tˆ hraje jinak ji za-
+					|   ‡ne hr t znovu.
+.POS					| Form t stavu. Napln¡ se j¡m buffer Sta-
+					|   vu.
+ Pozadi(jo:boolean)			| Zobraz¡ v¨echny animace bˆ‘¡c¡ na po-
+					|   zad¡, postavy a jejich p©ekr˜v n¡ s
+					|   s vˆcmi a ... Kdy‘ je jo True zobra-
+					|   zuje se i my¨ka, co‘ v‘dycky d vej.
+ Pouzij(p1,p2,p3:byte)			| Tato funkce vrac¡ True jestli‘e hodno-
+					|   p1,p2,p3 odpov¡daj¡ akci, kter  byla
+					|   my¨¡ provedena.
+					|   P1 odpov¡d  ‡¡slu vˆci, kter  je v
+					|   pracce, 0 znamen  ‘e pou‘¡v m ruku.
+					|   P2 obsahuje ‡¡slo oblasti, v kter˜
+					|   kliknu my¨ou. V P3 je ulo‘eno ‡¡slo
+					|   m¡stnosti. If P3=255 then pou‘¡v m
+					|   vˆc na jinou vˆc z invent ©e.
+					|   Kdy‘ je P3 a P2 0, pak to znamen ,‘e
+					|   vˆc jsem vzal pouze do pracky.
+ PrevedVecDoKapsy(cis:byte)		| Vˆc ‡¡slo Cis se okam‘itˆ p©esune do
+					|   invent ©e. Pokud se zrovna zobrazuje
+					|   nezmizi z obrazovky.
+ PutPixel(x,y,barva:integer)		| Vyprdne bod do aktivn¡ str nky.
+ Refreshpostavu(cis:byte,x,y:integer)	| Ob‡erstv¡ pozad¡ za postavou Cis.
+ ResetFM				| Nastav¡ SB na Ready p©ij¡mat dal¨¡ po-
+					|   vely. Automaticky se vyvol v  v pro-
+					|   cedu©e Inicializuj.
+ RestoreGame(s:string)			| Obnov¡ pozici ze souboru S.
+ RychleObjevse(od,po:byte)		| Stejnˆ jako Objevse, ale okam‘itˆ.
+ RychleZmiz(od,po:byte)			| Stejnˆ jako Zmiz, ale okam‘itˆ.
+.SAV					| Form t savu. Cha.
+ SaveGame(s:string)			| Ulo‘¡ pozici do souboru S.
+.SHP					| T¡m se nastavuj¡ automatick‚ funkce v
+					|   ka‘d‚ obrazovce. Kv–li ne‡itelnosti
+					|   z paku je to zak¢dovan˜.
+ StopCMF				| P©eru¨¡ hran¡ p¡sni‡ky.
+.TXT					| Obsahuje texty pro popis vˆc¡- soubor
+					|   items.txt! V ka‘d‚m bloku informac¡
+					|   1. byte p©edstavuje ‡¡slo vˆci, 2.
+					|   byte d‚lku textu. N sleduje vlastn¡
+					|   text ukon‡en˜ Enterem- nepo‡¡t  se 
+					|   do d‚lky ©etˆzce. M  to jednu vadi‡-
+					|   ku- je to zak¢dovan˜.
+ UkazPage(jo:boolean)			| Zde se prov d¡ v˜mˆna video str nek.
+					|   Parametr slou‘¡ stejn‚mu £‡elu jako
+					|   v procedu©e Pozadi.
+ Ulozpozadi				| P©i vyvol n¡ se nastav¡ obr zek v ak-
+					|   tivn¡ str nce jako pozad¡ a sna‘¡ se
+					|   ho dodr‘ovat.
+ UmazPostavu(cis:byte)			| Zru¨¡ postavu ‡¡slo Cis.
+ UpravBudouciSouradnice			| Nedokumentovana funkcia.
+.WSA					| Form t animac¡- obsahuje pravo£hl‚ v˜-
+					|   ©ezy tvo©¡c¡ sn¡mky animac¡.
+ ZapisBitDoStavu(poz:word,bit,b:byte)	| Zap¡¨e ‡¡slo B do bufferu Stavu na
+					|   Bit-t˜ bit Poz-t‚ho bajtu bufferu.
+					|   B m–‘e b˜t pouze 0 or 1.
+					|   Automaticky spusti ObnovRoomSHP.
+ ZapisByteDoStavu(poz:word,b:byte)	| Zap¡¨e ‡¡slo B na Poz-t˜ bajt Stavov‚-
+					|   ho bufferu.
+					|   Automaticky spusti ObnovRoomSHP.
+ ZavriPak				| Uzav©e aktivn¡ pak. Automaticky se
+					|   prov d¡ v proc. Odinicializuj.
+ ZmenPostavu(cis:byte,s:string)		| Zmˆn¡ animaci, kterou postava provad¡.
+					|   Parametr Cis ur‡uje o kterou postavu
+					|   jde. (viz NovaPostava)
+ ZmenPrepis(cis:byte,x,y,pr:integer)	| Zmˆn¡ sou©adnici na obrazovce a ‡¡slo
+					|   p©episu postavy Cis.
+ Zmiz(od,po:byte)			| Zhasne blok barev od Od do Po.
+ Zobraz(x,y:integer,s:string,d,f:byte)	| Zobraz¡ text S d‚lky D fontem F s le-
+					|   v˜m, horn¡m rohem na sou©. x,y.
+ ZobrazInventar				| Zobraz¡ invent © vˆc¡ a ikonek.
+ ZrusVec(cis:byte)			| Vˆc ‡¡slo Cis zmiz¡ z obrazovky a ob-
+					|   se v invent ©i. Proced. se vyvol v 
+					|   automaticky v procedu©e Myska.
+					|   Nepou‘¡vat!
+ ZrusVecUplne(cis:byte)			| Vˆc ‡¡slo Cis z invent ©e zmiz¡ nado-
+					|   bro ze svˆta. Procedura se vyvol v 
+					|   dosazen¡m ‡¡sla vˆci do promˆnn‚
+					|   ZrusUpl- ihned po proj¡t¡ procedury
+					|   UkazPage se p©¡kaz vykon .
+--------------------------------------------------------------------------------
+
+							by Mr. Old
