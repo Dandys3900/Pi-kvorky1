@@ -468,10 +468,15 @@ void UpravaNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoci
     int i = 0;
     int pocet_nemoci = 0;
     int konec_priznaku = 0;
-    char volba[3];
+    char volba[4];
+    char spravne[] = "ano";
     nemoc pole[100];
     nemoc_priznaky pole_priznaky[1000];
     nemoc_popis pole_popis[1000];
+    FILE* help_file;
+
+    help_file = fopen("help_file.txt", "w+");
+    if (popis_nemoci == NULL) printf("Pomocny soubor nebyl otevren \n");
 
     pocet_nemoci = PocetNemoci(seznam_nemoci);
     NactenidoPole_Vypis(seznam_nemoci, pole, 2);
@@ -490,61 +495,71 @@ void UpravaNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoci
     for(i = 0; i < pocet_nemoci; i++) fprintf(seznam_nemoci, "%d %s %d %0.2f \n", pole[i].id_nemoci, pole[i].nazev_nemoci, pole[i].pocet_umrti, pole[i].procento_mrtvych);
 
     i = 0;
-    while(1)
-    {
-        fscanf(priznaky_nemoci, "%d %999s", &pole_priznaky[i].id_nemoci, &pole_priznaky[i].priznaky_nemoci);
-        if(pole[i].id_nemoci == pozice_nove_nemoci) break;
-        i++;
-    }
+    while(fscanf(priznaky_nemoci, "%d %999s", &pole_priznaky[i].id_nemoci, &pole_priznaky[i].priznaky_nemoci) != EOF) i++;
+    rewind(help_file);
 
     system("cls");
-    fprintf(priznaky_nemoci, "%d ", pozice_nove_nemoci);
 
     printf("\n -> Je priznakem teto nemoci nechutenstvi nebo hubnuti [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "nechutenstvi,hubnuti,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",nechutenstvi,hubnuti");
 
     printf("\n -> Je priznakem teto nemoci prujem [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "prujem,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",prujem");
 
     printf("\n -> Je priznakem teto nemoci zvraceni [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "zvraceni,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",zvraceni");
 
     printf("\n -> Je priznakem teto nemoci dusnost nebo obtizne dychani [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "dusnost,obtizne_dychani,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",dusnost,obtizne_dychani");
 
     printf("\n -> Je priznakem teto nemoci kychani nebo sipani [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "kychani,sipani,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",kychani,sipani");
 
     printf("\n -> Je priznakem teto nemoci onemocneni kuze [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "onemocneni_kuze,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",onemocneni_kuze");
 
     printf("\n -> Je priznakem teto nemoci onemocneni oci [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "onemocneni_oci,");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",onemocneni_oci");
 
     printf("\n -> Je priznakem teto nemoci nemoc nervove soustavy nebo krece [ano/ne]: ");
-    scanf("%s", &volba);
+    scanf("%3s", &volba);
 
-    if(strcmp(volba, 'ano') == 0) fprintf(priznaky_nemoci, "onemocneni_nervove_soustavy,krece");
+    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",onemocneni_nervove_soustavy,krece");
 
-    fprintf(priznaky_nemoci, ". \n");
-    fflush(priznaky_nemoci);
+    fprintf(help_file, ".");
+    fseek(help_file, 1, SEEK_SET);
+    fscanf(help_file, "%999s", &pole_priznaky[pozice_nove_nemoci - 1].priznaky_nemoci);
+
+    rewind(priznaky_nemoci);
+    for(i = 0; i < pocet_nemoci; i++) fprintf(priznaky_nemoci, "%d %s \n", pole_priznaky[i].id_nemoci, pole_priznaky[i].priznaky_nemoci);
+    system("cls");
+
+    rewind(popis_nemoci);
+    i = 0;
+    while(fscanf(popis_nemoci, "%d %999s", &pole_popis[i].id_nemoci, &pole_popis[i].popis_nemoci) != EOF) i++;
+
+    printf("\n -> Zadejte popis %s [jednotliva slova oddeluj podtrzitkem a na konci nezapomen na tecku]: ", pole[pozice_nove_nemoci - 1].nazev_nemoci);
+    scanf("%999s", &pole_popis[pozice_nove_nemoci - 1].popis_nemoci);
+    rewind(popis_nemoci);
+    for(i = 0; i < pocet_nemoci; i++) fprintf(popis_nemoci, "%d %s \n", pole_popis[i].id_nemoci, pole_popis[i].popis_nemoci);
     system("cls");
 
     printf("-> nemoc %s byla uspesne pridana do databaze!, pod cislem %d \n", pole[pozice_nove_nemoci - 1].nazev_nemoci, pozice_nove_nemoci);
+    fclose(help_file);
 }
 
 /*
