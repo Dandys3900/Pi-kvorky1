@@ -31,6 +31,95 @@ int PocetNemoci(FILE* seznam_nemoci)
     return pocet_nemoci;
 }
 
+void BarevneSchema()
+{
+    int volba_nahledu = 0;
+    char volba[3];
+
+    printf("NA ZACATEK SI PROSIM VYBERTE BAREVNE SCHEMA PRO TENTO PROGRAM \n");
+    printf("\n Barva pozadi:                   Barva pisma: \n");
+    printf("   ->a Ruzova                      ->1 Cerna \n");
+    printf("   ->b Svetle modra                ->2 Modra \n");
+    printf("   ->c Svetle cervena              ->3 Zelena \n");
+    printf("   ->d Svetle zluta                ->4 Cervena \n");
+    printf("   ->e Svitiva bila                ->5 Svetle modra \n");
+
+    printf("\n    -> Vas vyber [zadejte napr. a1]: ");
+    scanf("%2s", &volba);
+
+    switch(volba[0])
+    {
+        case 'a':
+            if(strcmp(volba, "a1") == 0) system("color d0");
+            else if(strcmp(volba, "a2") == 0) system("color d1");
+            else if(strcmp(volba, "a3") == 0) system("color d2");
+            else if(strcmp(volba, "a4") == 0) system("color d4");
+            else if(strcmp(volba, "a5") == 0) system("color d9");
+            break;
+        
+        case 'b':
+            if(strcmp(volba, "b1") == 0) system("color b0");
+            else if(strcmp(volba, "b2") == 0) system("color b1");
+            else if(strcmp(volba, "b3") == 0) system("color b2");
+            else if(strcmp(volba, "b4") == 0) system("color b4");
+            else if(strcmp(volba, "b5") == 0) system("color b9");
+            break;
+
+        case 'c':
+            if(strcmp(volba, "c1") == 0) system("color c0");
+            else if(strcmp(volba, "c2") == 0) system("color c1");
+            else if(strcmp(volba, "c3") == 0) system("color c2");
+            else if(strcmp(volba, "c4") == 0) system("color c4");
+            else if(strcmp(volba, "c5") == 0) system("color c9");
+            break;
+
+        case 'd':
+            if(strcmp(volba, "d1") == 0) system("color e0");
+            else if(strcmp(volba, "d2") == 0) system("color e1");
+            else if(strcmp(volba, "d3") == 0) system("color e2");
+            else if(strcmp(volba, "d4") == 0) system("color e4");
+            else if(strcmp(volba, "d5") == 0) system("color e9");
+            break;
+
+        case 'e':
+            if(strcmp(volba, "e1") == 0) system("color f0");
+            else if(strcmp(volba, "e2") == 0) system("color f1");
+            else if(strcmp(volba, "e3") == 0) system("color f2");
+            else if(strcmp(volba, "e4") == 0) system("color f4");
+            else if(strcmp(volba, "e5") == 0) system("color f9");
+            break;
+
+        default: break;
+    }
+
+    system("cls");
+    
+    printf("\n Takto vypada vase barevna kombinace \n \n");
+    printf("-> 1 Nechat a spustit program \n");
+    printf("-> 2 Obnovit puvodni barevnou kombinaci a spustit program\n");
+    printf("-> 3 Vybrat novou kombinaci \n");
+    printf("\n -> Vase volba: ");
+    scanf("%d", &volba_nahledu);
+
+    switch(volba_nahledu)
+    {
+        case 1: break;
+
+        case 2:
+            system("color 0f");
+            break;
+        
+        case 3:
+            system("cls");
+            BarevneSchema();
+            break;
+
+        default: break;
+    }
+
+    system("cls");
+}
+
 int menu()
 {
     int volba = 0;
@@ -57,7 +146,6 @@ void VypisNemoci(FILE *seznam_nemoci)
     nemoc x;
 
     while(fscanf(seznam_nemoci,"%d %49s %d %f", &x.id_nemoci, &x.nazev_nemoci, &x.pocet_umrti, &x.procento_mrtvych) == 4) printf("-> %d %s \n", x.id_nemoci, x.nazev_nemoci);
-
     rewind(seznam_nemoci);
 }
 
@@ -239,12 +327,15 @@ void InfooNemociMenu(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nem
         case 1:
             VypisPriznaku(priznaky_nemoci, seznam_nemoci, id_nemoci);
             break;
+
         case 2:
             VypisPopisu(popis_nemoci, seznam_nemoci, id_nemoci);
             break;
+
         case 3:
             VypisVseho(seznam_nemoci, priznaky_nemoci, popis_nemoci, id_nemoci);
             break;
+
         default: break;
     }
 }
@@ -274,16 +365,18 @@ void HledaniNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoc
             printf("Zadejte nazev nemoci, kterou chcete vyhledat [viceslovne nazvy oddeluj podtrzitkem]: ");
             scanf("%49s", &nazev_nemoci);
             break;
+
         case 2:
             printf("Zadejte pocet obeti teto nemoci: ");
             scanf("%d", &pocet_obeti);
             break;
+
         case 3:
             printf("Zadejte procentualniho umrtnost teto nemoci: ");
             scanf("%f", &procentualni_umrtnost);
             break;
-        default:
-            break;
+
+        default: break;
     }
 
     system("cls");
@@ -352,103 +445,156 @@ void RazeniNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoci
     scanf("%d", &volba);
     system("cls");
 
-    if(volba == 1)
+    switch(volba)
     {
-        for(int i = 0; i < pocet_nemoci; i++)
-        {
-            for(int j = 1; j < pocet_nemoci; j++)
+        case 1:
+            for(int i = 0; i < pocet_nemoci; i++)
             {
-                if(strcmp(pole[j - 1].nazev_nemoci, pole[j].nazev_nemoci) > 0)
+                for(int j = 1; j < pocet_nemoci; j++)
                 {
-                    pom = pole[j - 1];
-                    pole[j - 1] = pole[j];
-                    pole[j] = pom;
+                    if(strcmp(pole[j - 1].nazev_nemoci, pole[j].nazev_nemoci) > 0)
+                    {
+                        pom = pole[j - 1];
+                        pole[j - 1] = pole[j];
+                        pole[j] = pom;
+                    }
                 }
             }
-        }
-    }
 
-    else if(volba == 2)
-    {
-        for(int i = 0; i < pocet_nemoci; i++)
-        {
-            for(int j = 1; j < pocet_nemoci; j++)
+            NactenidoPole_Vypis(seznam_nemoci, pole, 1);
+            break;
+
+        case 2:
+            for(int i = 0; i < pocet_nemoci; i++)
             {
-                if(pole[j - 1].pocet_umrti > pole[j].pocet_umrti)
+                for(int j = 1; j < pocet_nemoci; j++)
                 {
-                    pom = pole[j - 1];
-                    pole[j - 1] = pole[j];
-                    pole[j] = pom;
+                    if(pole[j - 1].pocet_umrti > pole[j].pocet_umrti)
+                    {
+                        pom = pole[j - 1];
+                        pole[j - 1] = pole[j];
+                        pole[j] = pom;
+                    }
                 }
             }
-        }
-    }
 
-    else if(volba == 3)
-    {
-        for(int i = 0; i < pocet_nemoci; i++)
-        {
-            for(int j = 1; j < pocet_nemoci; j++)
+            NactenidoPole_Vypis(seznam_nemoci, pole, 1);
+            break;
+
+        case 3:
+            for(int i = 0; i < pocet_nemoci; i++)
             {
-                if(pole[j - 1].procento_mrtvych > pole[j].procento_mrtvych)
+                for(int j = 1; j < pocet_nemoci; j++)
                 {
-                    pom = pole[j - 1];
-                    pole[j - 1] = pole[j];
-                    pole[j] = pom;
+                    if(pole[j - 1].procento_mrtvych > pole[j].procento_mrtvych)
+                    {
+                        pom = pole[j - 1];
+                        pole[j - 1] = pole[j];
+                        pole[j] = pom;
+                    }
                 }
             }
-        }
-    }
 
-    NactenidoPole_Vypis(seznam_nemoci, pole, 1);
+            NactenidoPole_Vypis(seznam_nemoci, pole, 1);
+            break;
+
+        default: break;
+    }
 }
 
 void UrceniPriznaku(FILE* help_file)
 {
+    int pocet_priznaku = 0;
+    int konec = 1;
     char volba[4];
     char spravne[] = "ano";
 
-    printf("\n -> Je priznakem teto nemoci nechutenstvi nebo hubnuti [ano/ne]: ");
-    scanf("%3s", &volba);
+    while(konec)
+    {
+        printf("\n -> Je priznakem teto nemoci nechutenstvi nebo hubnuti [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",nechutenstvi,hubnuti");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",nechutenstvi,hubnuti");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci prujem [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci prujem [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",prujem");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",prujem");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci zvraceni [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci zvraceni [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",zvraceni");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",zvraceni");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci dusnost nebo obtizne dychani [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci dusnost nebo obtizne dychani [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",dusnost,obtizne_dychani");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",dusnost,obtizne_dychani");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci kychani nebo sipani [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci kychani nebo sipani [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",kychani,sipani");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",kychani,sipani");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci onemocneni kuze [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci onemocneni kuze [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",onemocneni_kuze");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",onemocneni_kuze");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci onemocneni oci [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci onemocneni oci [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",onemocneni_oci");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",onemocneni_oci");
+            pocet_priznaku++;
+        }
 
-    printf("\n -> Je priznakem teto nemoci nemoc nervove soustavy nebo krece [ano/ne]: ");
-    scanf("%3s", &volba);
+        printf("\n -> Je priznakem teto nemoci nemoc nervove soustavy nebo krece [ano/ne]: ");
+        scanf("%3s", &volba);
 
-    if(strcmp(volba, spravne) == 0) fprintf(help_file, ",onemocneni_nervove_soustavy,krece");
+        if(strcmp(volba, spravne) == 0)
+        {
+            fprintf(help_file, ",onemocneni_nervove_soustavy,krece");
+            pocet_priznaku++;
+        }
 
-    fprintf(help_file, ".");
+        fprintf(help_file, ".");
+        if(pocet_priznaku == 0)
+        {
+            system("cls");
+            printf("! Musite zvolit alespon 1 priznak \n");
+            system("pause");
+            rewind(help_file);
+            pocet_priznaku = 0;
+        }
+
+        else konec = 0;
+    }
 }
 
 void UpravaNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoci, FILE* help_file, int pozice_nove_nemoci)
@@ -479,11 +625,12 @@ void UpravaNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoci
 
     rewind(seznam_nemoci);
     for(i = 0; i < pocet_nemoci; i++) fprintf(seznam_nemoci, "%d %s %d %0.2f \n", pole[i].id_nemoci, pole[i].nazev_nemoci, pole[i].pocet_umrti, pole[i].procento_mrtvych);
+
     rewind(priznaky_nemoci);
     for(i = 0; i < pocet_nemoci; i++) fscanf(priznaky_nemoci, "%d %999s", &pole_priznaky[i].id_nemoci, &pole_priznaky[i].priznaky_nemoci);
     rewind(help_file);
-
     system("cls");
+
     UrceniPriznaku(help_file);
     fseek(help_file, 1, SEEK_SET);
     fscanf(help_file, "%999s", &pole_priznaky[pozice_nove_nemoci - 1].priznaky_nemoci);
@@ -505,7 +652,6 @@ void UpravaNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoci
     delka_posledniho_retezce = sizeof(pole_popis[pocet_nemoci - 1].popis_nemoci);
     for(i = 0; i < delka_posledniho_retezce; i++) fprintf(popis_nemoci, " ");
     system("cls");
-    printf("%s \n", pole_popis[pocet_nemoci].popis_nemoci);
 
     printf("-> zaznam o nemoci %s byl uspesne zmenen! \n", pole[pozice_nove_nemoci - 1].nazev_nemoci);
 }
@@ -568,8 +714,8 @@ void PridaniNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoc
     rewind(priznaky_nemoci);
     for(i = 0; i < pocet_nemoci; i++) fscanf(priznaky_nemoci, "%d %999s", &pole_priznaky[i].id_nemoci, &pole_priznaky[i].priznaky_nemoci);
     rewind(help_file);
-
     system("cls");
+
     UrceniPriznaku(help_file);
     fseek(help_file, 1, SEEK_SET);
     fscanf(help_file, "%999s", &novy_priznak.priznaky_nemoci);
@@ -637,6 +783,7 @@ void PridaniNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoc
     delka_posledniho_retezce = sizeof(pole_popis[pocet_nemoci - 1].popis_nemoci);
     for(i = 0; i < delka_posledniho_retezce; i++) fprintf(popis_nemoci, " ");
     system("cls");
+
     printf("-> nemoc %s byla uspesne pridana do databaze!, pod cislem %d \n", nova_nemoc.nazev_nemoci, pozice_nove_nemoci);
 }
 
@@ -678,6 +825,7 @@ void SmazaniNemoci(FILE* seznam_nemoci, FILE* priznaky_nemoci, FILE* popis_nemoc
     for(i = 0; i < delka_posledniho_retezce; i++) fprintf(seznam_nemoci, " ");
     system("cls");
 
+    rewind(priznaky_nemoci);
     for(i = 0; i < pocet_nemoci; i++) fscanf(priznaky_nemoci, "%d %999s", &pole_priznaky[i].id_nemoci, &pole_priznaky[i].priznaky_nemoci);
 
     rewind(priznaky_nemoci);
@@ -775,6 +923,8 @@ int main(void)
         return 1;
     }
 
+    BarevneSchema();
+
     while(konec)
     {
         pocet_nemoci = PocetNemoci(seznam_nemoci);
@@ -802,6 +952,7 @@ int main(void)
 
                     printf("\n Zadej cislo nemoci, jejiz priznaky chces vypsat: ");
                     scanf("%d", &id);
+                    if(id <= 0 || id > pocet_nemoci) break;
                     system("cls");
                     NazevNemoci(seznam_nemoci, id);
                     OhranicenyVypis();
@@ -822,6 +973,7 @@ int main(void)
 
                     printf("\n Zadej cislo nemoci, o ktere se chcete dozvedet vice: ");
                     scanf("%d", &id);
+                    if(id <= 0 || id > pocet_nemoci) break;
                     system("cls");
                     NazevNemoci(seznam_nemoci, id);
                     OhranicenyVypis();
@@ -843,6 +995,7 @@ int main(void)
 
                     printf("\n Zadej cislo nemoci, o ktere se chcete dozvedet uplne vsechno: ");
                     scanf("%d", &id);
+                    if(id <= 0 || id > pocet_nemoci) break;
                     system("cls");
                     VypisVseho(seznam_nemoci, priznaky_nemoci, popis_nemoci, id);
                     rewind(seznam_nemoci);
@@ -892,6 +1045,7 @@ int main(void)
                     VypisNemoci(seznam_nemoci);
                     printf("\n Vyber nemoc, jejiz zaznamy chces upravit: ");
                     scanf("%d", &pozice);
+                    if(pozice <= 0 || pozice > pocet_nemoci) break;
                     
                     UpravaNemoci(seznam_nemoci, priznaky_nemoci, popis_nemoci,help_file, pozice);
                     rewind(seznam_nemoci);
@@ -910,6 +1064,7 @@ int main(void)
                     VypisNemoci(seznam_nemoci);
                     printf("\n Vyber pozici, kam chces pridat novou nemoc: ");
                     scanf("%d", &pozice);
+                    if(pozice <= 0 || pozice > pocet_nemoci) break;
                     
                     PridaniNemoci(seznam_nemoci, priznaky_nemoci, popis_nemoci,help_file, pozice);
                     rewind(seznam_nemoci);
@@ -928,6 +1083,7 @@ int main(void)
                     VypisNemoci(seznam_nemoci);
                     printf("\n Vyber nemoc, kterou chcete smazat: ");
                     scanf("%d", &pozice);
+                    if(pozice <= 0 || pozice > pocet_nemoci) break;
                     
                     SmazaniNemoci(seznam_nemoci, priznaky_nemoci, popis_nemoci,help_file, pozice);
                     rewind(seznam_nemoci);
@@ -937,8 +1093,7 @@ int main(void)
                     system("cls");
                     break;   
 
-            default:
-                konec=0;
+            default: konec=0;
         } //konec switch
     } // konec while
 
