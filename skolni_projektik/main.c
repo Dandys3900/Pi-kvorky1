@@ -44,7 +44,7 @@ void OhranicenyVypis(int delka)
     printf("\n");
 }
 
-void BarevneSchema(FILE* barevna_tabulka)
+void BarevneSchema(FILE* barevna_tabulka, int volba_postupu)
 {
     int volba_nahledu = 0;
     char volba[3];
@@ -53,52 +53,56 @@ void BarevneSchema(FILE* barevna_tabulka)
 
     rewind(barevna_tabulka);
 
-    printf("NA ZACATEK SI PROSIM VYBERTE BAREVNE SCHEMA PRO TENTO PROGRAM \n");
-    printf("\n Barva pozadi:                   Barva pisma: \n");
-    printf("   ->a Ruzova                      ->1 Cerna \n");
-    printf("   ->b Tyrkysova                   ->2 Modra \n");
-    printf("   ->c Svetle cervena              ->3 Zelena \n");
-    printf("   ->d Svetle zluta                ->4 Cervena \n");
-    printf("   ->e Svitiva bila                ->5 Svetle modra \n");
-    OhranicenyVypis(62);
-    printf("\n    -> Vas vyber [zadejte napr. a1]: ");
-    scanf("%s", &volba);
-
-    while(fscanf(barevna_tabulka, "%3s %10s", &barva[i].volba, &barva[i].command) == 2)
+    if(volba_postupu == 2)
     {
-        if(strcmp(volba, barva[i].volba) == 0)
+        system("cls");
+
+        printf(" Barva pozadi:                   Barva pisma: \n");
+        printf("   ->a Ruzova                      ->1 Cerna \n");
+        printf("   ->b Tyrkysova                   ->2 Modra \n");
+        printf("   ->c Svetle cervena              ->3 Zelena \n");
+        printf("   ->d Svetle zluta                ->4 Cervena \n");
+        printf("   ->e Svitiva bila                ->5 Svetle modra \n");
+        OhranicenyVypis(62);
+        printf("\n    -> Vas vyber [zadejte napr. a1]: ");
+        scanf("%s", &volba);
+
+        while(fscanf(barevna_tabulka, "%3s %10s", &barva[i].volba, &barva[i].command) == 2)
         {
-            barva[i].command[6] = ' ';
-            system(barva[i].command);
-            break;
+            if(strcmp(volba, barva[i].volba) == 0)
+            {
+                barva[i].command[6] = ' ';
+                system(barva[i].command);
+                break;
+            }
+
+            i++;
         }
 
-        i++;
-    }
-
-    system("cls");
-    
-    printf("\n Takto vypada vase barevna kombinace \n \n");
-    printf("-> 1 Nechat a spustit program \n");
-    printf("-> 2 Obnovit puvodni barevnou kombinaci a spustit program\n");
-    printf("-> 3 Vybrat novou kombinaci \n");
-    printf("\n -> Vase volba: ");
-    scanf("%d", &volba_nahledu);
-
-    switch(volba_nahledu)
-    {
-        case 1: break;
-
-        case 2:
-            system("color 0f");
-            break;
+        system("cls");
         
-        case 3:
-            system("cls");
-            BarevneSchema(barevna_tabulka);
-            break;
+        printf("\n Takto vypada vase barevna kombinace \n \n");
+        printf("-> 1 Nechat a spustit program \n");
+        printf("-> 2 Obnovit puvodni barevnou kombinaci a spustit program\n");
+        printf("-> 3 Vybrat novou kombinaci \n");
+        printf("\n -> Vase volba: ");
+        scanf("%d", &volba_nahledu);
 
-        default: break;
+        switch(volba_nahledu)
+        {
+            case 1: break;
+
+            case 2:
+                system("color 0f");
+                break;
+            
+            case 3:
+                system("cls");
+                BarevneSchema(barevna_tabulka, volba_postupu);
+                break;
+
+            default: break;
+        }
     }
 
     system("cls");
@@ -866,8 +870,16 @@ int main(void)
     int volba;
     int id;
     int pozice = 0;
+    int volba_nahledu = 0;
 
-    BarevneSchema(barevna_tabulka);
+    printf("NA ZACATEK SI PROSIM VYBERTE BAREVNE SCHEMA PRO TENTO PROGRAM \n");
+    printf("\n -> 1 Vychozi barevne nastaveni \n");
+    printf(" -> 2 Barevny konfigurator \n");
+    OhranicenyVypis(62);
+    printf("    -> Vas vyber: ");
+    scanf("%d", &volba_nahledu);
+
+    BarevneSchema(barevna_tabulka, volba_nahledu);
 
     while(konec)
     {
