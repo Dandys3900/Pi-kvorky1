@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
+#if __linux__
+ #include <string.h>
+#else
+ #include <windows.h>
+#endif
 
 typedef struct
 {
