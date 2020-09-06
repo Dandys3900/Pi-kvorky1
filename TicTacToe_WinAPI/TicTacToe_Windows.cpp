@@ -12,9 +12,9 @@ const int CELL_SIZE = 100;
 HBRUSH hbr1, hbr2;                                // Global brush variables
 HICON hIcon1, hIcon2;                             // Global icons for Player1 and Player2
 int PlayerTurn = 1;
-int GameBoard[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // Field which contains each cell number (0-8)
+int GameBoard[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // Field which contains each cell number (0-8)
 int Winner = 0;
-int wins[3];
+int wins[4];
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -24,8 +24,7 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
-{
+                     _In_ int       nCmdShow){
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -118,11 +117,11 @@ BOOL GetGameBoardRect(HWND hwnd, RECT * pRect)
         int width = rc.right - rc.left;
         int height = rc.bottom - rc.top;
 
-        pRect->left = ((width - (CELL_SIZE * 3)) / 2);
-        pRect->top = ((height - (CELL_SIZE * 3)) / 2);
+        pRect->left = ((width - (CELL_SIZE * 4)) / 2);
+        pRect->top = ((height - (CELL_SIZE * 4)) / 2);
 
-        pRect->right = (pRect->left + (CELL_SIZE * 3));
-        pRect->bottom = (pRect->top + (CELL_SIZE * 3));
+        pRect->right = (pRect->left + (CELL_SIZE * 4));
+        pRect->bottom = (pRect->top + (CELL_SIZE * 4));
 
         return TRUE;
     }
@@ -167,7 +166,7 @@ int GetCellNumberFromPoint(HWND hwnd, int x, int y)
             int row = (y / CELL_SIZE);
 
             // Convert to index (0-8)
-            return (column + (row * 3));
+            return (column + (row * 4));
         }
     }
 
@@ -183,13 +182,13 @@ BOOL GetCellRect(HWND hwnd, int index, RECT * pRect)
     RECT rcBoard;
 
     SetRectEmpty(pRect); // Set rectangle to zeros
-    if (index < 0 || index > 8)
+    if (index < 0 || index > 16)
         return FALSE;
 
     if (GetGameBoardRect(hwnd, &rcBoard))
     {
-        int x = (index % 3); // Column (sloupec) number
-        int y = (index / 3); // Row (radek) number
+        int x = (index % 4); // Column (sloupec) number
+        int y = (index / 4); // Row (radek) number
 
         pRect->left = (rcBoard.left + (x * CELL_SIZE) + 1);
         pRect->top = (rcBoard.top + (y * CELL_SIZE) + 1);
@@ -206,24 +205,26 @@ BOOL GetCellRect(HWND hwnd, int index, RECT * pRect)
 //  FUNCTION: GetWinner(int)                //
 //  PURPOSE: Detect a winner in cell field. //
 //////////////////////////////////////////////
-int GetWinner(/*int num_of_lines,*/ int wins[3])
+int GetWinner(int num_of_lines, int wins[4])
 {
-    /*int number = 0;
+    int number = 0;
+    int a = 1;
     int * cells;
     cells = (int*)malloc(sizeof(int));
 
     if (cells)
     {
-        for (int i = 0; i < (num_of_lines * 8); i++)
+        for (int i = 0; i < (num_of_lines * (num_of_lines + num_of_lines + 2)); i++)
         {
             if (i >= 0 && i < (num_of_lines * num_of_lines))
                 cells[i] = i;
             else if (i >= (num_of_lines * num_of_lines) && i < ((num_of_lines * num_of_lines) * 2))
             {
-                if (i == ((num_of_lines * num_of_lines) + num_of_lines))
-                    number = 1;
-                else if (i == ((num_of_lines * num_of_lines) + (num_of_lines * 2)))
-                    number = 2;
+                if (i == ((num_of_lines * num_of_lines) + (num_of_lines * a)))
+                {
+                    number = a;
+                    a++;
+                }
 
                 cells[i] = number;
                 number += num_of_lines;
@@ -233,20 +234,20 @@ int GetWinner(/*int num_of_lines,*/ int wins[3])
                 if (i == ((num_of_lines * num_of_lines) * 2))
                     number = 0;
                 cells[i] = number;
-                number += 4;
+                number += (num_of_lines + 1);
             }
             else if (i >= (((num_of_lines * num_of_lines) * 2) + num_of_lines))
             {
                 if (i == (((num_of_lines * num_of_lines) * 2) + num_of_lines))
-                    number = 2;
+                    number = (num_of_lines - 1);
                 cells[i] = number;
-                number += 2;
+                number += (num_of_lines - 1);
             }
         }
 
         int still_true = 1;
 
-        for (int i = 0; i < (num_of_lines * 8); i+=num_of_lines)
+        for (int i = 0; i < (num_of_lines * (num_of_lines + num_of_lines + 2)); i+=num_of_lines)
         {
             number = 0;
 
@@ -280,9 +281,9 @@ int GetWinner(/*int num_of_lines,*/ int wins[3])
         }
     }
 
-    return 3;*/
+    return 3;
 
-    int cells[] = { 0, 1, 2,
+    /*int cells[] = { 0, 1, 2,
                     3, 4, 5,
                     6, 7, 8,
 
@@ -311,7 +312,7 @@ int GetWinner(/*int num_of_lines,*/ int wins[3])
             return 0; // Empty cells => continue in game
     }
 
-    return 3;
+    return 3;*/
 }
 
 //////////////////////////////////////////////////
@@ -385,7 +386,7 @@ void ShowWinner(HWND hwnd, HDC hdc)
 {
     RECT rcWin;
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         if (GetCellRect(hwnd, wins[i], &rcWin))
         {
@@ -471,7 +472,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                         DrawIconCentered(hdc, &rcCell, ((PlayerTurn == 1) ? hIcon1 : hIcon2));
 
                         // Check for a winner
-                        Winner = GetWinner(wins);
+                        Winner = GetWinner(4, wins);
                         if (Winner == 1 || Winner == 2)
                         {
                             ShowWinner(hWnd, hdc);
@@ -505,8 +506,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             if (pMinMax)
             {
-                pMinMax->ptMinTrackSize.x = CELL_SIZE * 5; // Make sure that window wont be smaller than painted rectangle
-                pMinMax->ptMinTrackSize.y = CELL_SIZE * 5;
+                pMinMax->ptMinTrackSize.x = CELL_SIZE * 6; // Make sure that window wont be smaller than painted rectangle
+                pMinMax->ptMinTrackSize.y = CELL_SIZE * 6;
             }
         }
         break;
@@ -541,7 +542,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 FillRect(hdc, &rc, (HBRUSH)GetStockObject(WHITE_BRUSH));
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 // Draw vertical lines
                 DrawLine(hdc, rc.left + (CELL_SIZE * i), rc.top, rc.left + (CELL_SIZE * i), rc.bottom);
